@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>英语练习题（二）· 可编辑版（含答案解析）</title>
+<style>
+:root{
+  --bg:#f5f6f8; --card:#fff; --ink:#1f2329; --ink-2:#4e5969; --ink-3:#86909c;
+  --line:#e5e6eb; --line-2:#d9dce1;
+  --brand:#2f6bd8; --brand-soft:#eaf1fd;
+  --ok:#00a870; --ok-soft:#e6f7f0;
+  --bad:#e34d59; --bad-soft:#fdecee;
+  --warn:#ff7d00; --warn-soft:#fff4e8;
+  --radius:10px;
+  --shadow:0 1px 3px rgba(31,35,41,.06),0 6px 16px rgba(31,35,41,.05);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.75;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:22px 18px 90px}
+
+/* hero */
+.hero{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:26px 28px 22px;margin-bottom:16px}
+.hero h1{margin:0 0 12px;font-size:26px;letter-spacing:.5px;text-align:center}
+.meta{display:flex;flex-wrap:wrap;gap:14px 26px;justify-content:center;
+  border-top:1px dashed var(--line-2);padding-top:14px;font-size:14px;color:var(--ink-2)}
+.meta span b{font-weight:600;color:var(--ink)}
+
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:30;background:rgba(245,246,248,.94);
+  backdrop-filter:blur(8px);padding:10px 0 12px;margin-bottom:6px}
+.tools{display:flex;flex-wrap:wrap;gap:9px;align-items:center;background:var(--card);
+  border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;box-shadow:var(--shadow)}
+button{font:inherit;font-size:13.5px;cursor:pointer;border-radius:7px;padding:7px 14px;
+  border:1px solid var(--line-2);background:#fff;color:var(--ink-2);transition:.15s}
+button:hover{border-color:var(--brand);color:var(--brand)}
+button.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+button.primary:hover{background:#2559bb;color:#fff}
+button.ghost{background:transparent}
+.spacer{flex:1}
+.score{font-size:13.5px;color:var(--ink-2);white-space:nowrap}
+.score b{font-size:18px;color:var(--brand);font-variant-numeric:tabular-nums}
+.hint{font-size:12.5px;color:var(--ink-3);margin:8px 2px 0}
+.hint b{color:var(--ink-2)}
+
+/* notice */
+.notice{background:var(--warn-soft);border:1px solid #ffd8b0;border-left:3px solid var(--warn);
+  border-radius:8px;padding:12px 16px;font-size:13.5px;color:#7a4b00;margin-bottom:16px}
+.notice b{color:#5c3700}
+
+/* section head */
+.sec{margin:26px 0 14px}
+.sec .lbl{font-size:16px;font-weight:700;color:var(--brand);letter-spacing:.4px}
+.sec .en-lbl{font-style:italic;color:var(--ink-3);font-size:13px;margin-top:2px}
+.dir{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 20px;margin-bottom:14px;box-shadow:var(--shadow)}
+.dir h2{font-size:15px;margin:0 0 6px;color:var(--ink)}
+.dir .m{color:var(--ink-2);font-size:14px;margin:0 0 8px}
+.dir .en{font-style:italic;color:var(--ink-3);font-size:13px;margin:0;white-space:pre-line}
+
+/* passage */
+.psg{background:#fbfcfe;border:1px solid #dbe4f5;border-left:3px solid var(--brand);
+  border-radius:8px;padding:16px 20px;margin:0 0 16px}
+.psg h3{margin:0 0 8px;font-size:14.5px;color:var(--brand)}
+.psg p{margin:0 0 8px;font-size:14.5px;line-height:1.85;color:var(--ink-2);white-space:pre-line}
+.psg p:last-child{margin-bottom:0}
+
+/* question */
+.q{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px 20px 16px;margin-bottom:12px;box-shadow:var(--shadow);transition:.18s}
+.q:hover{border-color:#cfd6e4}
+.q.correct{border-color:var(--ok);box-shadow:0 0 0 1px var(--ok-soft)}
+.q.wrong{border-color:var(--bad);box-shadow:0 0 0 1px var(--bad-soft)}
+.q-head{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+.num{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--brand-soft);
+  color:var(--brand);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+.q.correct .num{background:var(--ok-soft);color:var(--ok)}
+.q.wrong .num{background:var(--bad-soft);color:var(--bad)}
+.stem{flex:1;font-size:15.5px;line-height:1.8;white-space:pre-wrap}
+.star{color:var(--warn);font-size:13px;margin-left:4px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
+.opt{display:flex;align-items:flex-start;gap:9px;padding:8px 11px;border:1px solid transparent;
+  border-radius:8px;cursor:pointer;transition:.13s;background:#fbfbfc}
+.opt:hover{background:var(--brand-soft)}
+.opt .lt{flex:0 0 auto;font-weight:700;color:var(--ink-3);width:16px}
+.opt .tx{flex:1}
+.opt.sel{background:var(--brand-soft);border-color:#bcd3f7}
+.opt.sel .lt{color:var(--brand)}
+.opt.right{background:var(--ok-soft);border-color:#a5e2c8}
+.opt.right .lt{color:var(--ok)}
+.opt.picked-wrong{background:var(--bad-soft);border-color:#f3b7bd}
+.opt.picked-wrong .lt{color:var(--bad)}
+
+/* answer panel */
+.ans{display:none;margin-top:14px;border-top:1px dashed var(--line-2);padding-top:13px;font-size:14px}
+.q.show .ans{display:block}
+.ans-row{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;margin-bottom:6px}
+.badge{display:inline-block;padding:2px 11px;border-radius:20px;font-size:13px;font-weight:700}
+.badge.ok{background:var(--ok-soft);color:var(--ok);border:1px solid #b3e6d1}
+.kp{display:inline-block;background:#f2f3f5;color:var(--ink-2);border:1px solid var(--line-2);
+  border-radius:5px;padding:1px 9px;font-size:12.5px}
+.ans p{margin:5px 0;color:var(--ink-2)}
+.ans .tr{color:var(--ink-3);font-size:13.5px}
+.ans .lab{color:var(--ink);font-weight:600}
+
+/* editable */
+[contenteditable="true"]{outline:none;border-radius:4px;transition:.15s;cursor:text}
+[contenteditable="true"]:hover{box-shadow:0 0 0 1px var(--line-2)}
+[contenteditable="true"]:focus{box-shadow:0 0 0 2px #bcd3f7;background:#fcfdff}
+.edit-on .opt{border-color:var(--line-2)}
+.badge-edit{margin-left:auto;font-size:11.5px;color:var(--ink-3);border:1px solid var(--line-2);
+  border-radius:5px;padding:1px 7px;background:#fff}
+
+footer{text-align:center;color:var(--ink-3);font-size:12.5px;margin-top:26px}
+
+@media print{
+  body{background:#fff}
+  .toolbar,.notice,.hint,footer{display:none!important}
+  .wrap{max-width:none;padding:0}
+  .sec,.dir,.psg,.q,.hero{box-shadow:none;break-inside:avoid;page-break-inside:avoid}
+  .q{margin-bottom:8px;padding:12px 14px}
+  .opt{background:#fff!important;border-color:transparent!important}
+  .opt.right{background:#e6f7f0!important;border-color:#a5e2c8!important}
+  .opt.picked-wrong{background:#fdecee!important;border-color:#f3b7bd!important}
+  .ans{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>英语练习题（二）</h1>
+    <div class="meta">
+      <span>姓名：<b data-edit contenteditable="false" spellcheck="false">&nbsp;</b></span>
+      <span>准考证号：<b data-edit contenteditable="false" spellcheck="false">&nbsp;</b></span>
+      <span>考场号：<b data-edit contenteditable="false" spellcheck="false">&nbsp;</b></span>
+      <span>座位号：<b data-edit contenteditable="false" spellcheck="false">&nbsp;</b></span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="tools">
+      <button id="btnCheck" class="primary">检查答案</button>
+      <button id="btnShowAll">显示全部解析</button>
+      <button id="btnHideAll" class="ghost">隐藏全部解析</button>
+      <button id="btnReset">清除作答</button>
+      <button id="btnEdit">编辑模式</button>
+      <button id="btnPrint">打印 / 导出 PDF</button>
+      <span class="spacer"></span>
+      <span class="score">已答 <b id="cntDone">0</b> / <b id="cntAll">0</b>　正确 <b id="cntRight">0</b></span>
+    </div>
+  </div>
+
+  <div class="notice">
+    <b>说明：</b>本页由 WPS 在线文档原卷解析而成，共收录 <b>第一部分 词汇与语法（1–50 题）</b> 与
+    <b>第二部分 阅读理解（51–70 题）</b> 共 70 题。按你的要求，<b>第三部分 写作（30 分）未收录</b>。
+    页面所有题目文本可直接修改（点「编辑模式」），作答与改动会自动保存在本机浏览器中。
+  </div>
+
+  <p class="hint"><b>用法：</b>① 直接点选项作答 → ② 点「检查答案」自动判分并显示解析 →
+  ③ 点「编辑模式」可改题干/选项/解析文本 → ④ 「打印 / 导出 PDF」时，未展开解析＝学生卷，展开后＝含答案解析的教师版。</p>
+
+  <main id="list"></main>
+
+  <footer>英语练习题（一）· 可编辑版　|　共 70 题（词汇与语法 50 + 阅读理解 20）　|　随附正确答案与中文解析</footer>
+</div>
+
+<script>
+const DATA = [{"kind": "sec", "id": "part1", "label": "第一部分　词汇与语法（共 50 分）", "en": "Part I　Vocabulary and Structure", "title": "一、单项选择", "meta": "本大题共 50 小题，每小题 1 分，共 50 分。", "en_dir": "Directions: There are 50 incomplete sentences in this section. For each sentence there are four choices marked A, B, C and D. Choose the ONE answer that best completes the sentence. Mark your answer on the ANSWER SHEET with a single line through the center of the letter that indicates your choice."}, {"kind": "q", "n": 1, "stem": "Greatly moved by what she did, _____.", "opts": ["tears came to my eyes", "my heart was full of gratefulness", "my eyes were filled with tears", "I could hardly hold back my tears"], "ans": 3, "answer": "D", "kp": "非谓语动词的逻辑主语", "exp": "过去分词短语 Greatly moved by… 作状语时，其逻辑主语必须与主句主语一致；能“被感动”的只能是人，四个选项中只有 D 的主语是 I，故选 D。A、C 主语是 tears/eyes，B 主语是 my heart，都不能被感动。", "tr": "被她的所作所为深深打动，我忍不住流下了眼泪。", "star": 1}, {"kind": "q", "n": 2, "stem": "He knew the problem was serious and promised to look into it _____ he reached office.", "opts": ["at that moment", "for that moment", "immediately", "soon"], "ans": 2, "answer": "C", "kp": "连词辨析", "exp": "immediately 除作副词外还可作连词，意为“一……就……”，相当于 as soon as，可引导时间状语从句。at that moment 是介词短语不能引导从句；soon 是副词也不能引导从句，故选 C。", "tr": "他知道问题很严重，并承诺一到办公室就去调查。", "star": 0}, {"kind": "q", "n": 3, "stem": "Shall we _____ our discussion and have some tea or coffee, please?", "opts": ["break off", "break down", "break into", "break out"], "ans": 0, "answer": "A", "kp": "动词短语辨析", "exp": "break off 中断、暂停；break down 出故障、崩溃；break into 闯入；break out 爆发。据句意“我们暂停讨论去喝点茶或咖啡好吗”，故选 A。", "tr": "我们暂停一下讨论，喝点茶或咖啡好吗？", "star": 0}, {"kind": "q", "n": 4, "stem": "He knows so much about the story. He must have read the book, _____?", "opts": ["mustn't he", "doesn't he", "hasn't he", "didn't he"], "ans": 2, "answer": "C", "kp": "反意疑问句", "exp": "must have done 表示对过去情况的肯定推测，且句中没有明确的过去时间状语，反意疑问部分用 haven't/hasn't + 主语，故选 C。", "tr": "他对这个故事了解得这么多，一定读过这本书，是吗？", "star": 0}, {"kind": "q", "n": 5, "stem": "As _____ rule, apples are sold by _____ weight and eggs by _____ dozen.", "opts": ["a; 不填; the", "a; the; the", "a; a; the", "the; 不填; 不填"], "ans": 0, "answer": "A", "kp": "冠词的用法", "exp": "as a rule 是固定搭配，意为“通常、照例”；by weight 意为“按重量”，抽象计量名词前不加冠词；by the dozen 意为“按打”，计量单位名词前加定冠词 the，故选 A。", "tr": "通常苹果按重量卖，鸡蛋按打卖。", "star": 1}, {"kind": "q", "n": 6, "stem": "The mistakes made by Chinese students are quite different from _____ made by the Japanese students in English study.", "opts": ["that", "which", "what", "those"], "ans": 3, "answer": "D", "kp": "代词的用法", "exp": "空格处要替代前面的复数名词 the mistakes，应用 those；that 只能替代单数或不可数名词，故选 D。", "tr": "中国学生所犯的错误与日本学生在英语学习中所犯的错误大不相同。", "star": 0}, {"kind": "q", "n": 7, "stem": "She is _____ in business but _____ in marriage.", "opts": ["a success; failure", "a success; a failure", "success; a failure", "success; failure"], "ans": 1, "answer": "B", "kp": "抽象名词具体化", "exp": "success 和 failure 表示“成功/失败的人或事”时是可数名词，前面须加不定冠词 a，两个空都要加，故选 B。", "tr": "她在事业上是个成功者，但在婚姻上却是个失败者。", "star": 0}, {"kind": "q", "n": 8, "stem": "I think I was at school, _____ I was staying with a friend during the vacation when I heard the news.", "opts": ["even so", "and then", "so that", "or else"], "ans": 3, "answer": "D", "kp": "连词/插入语辨析", "exp": "or else 意为“或者、要不然”，用来引出另一种可能。句意：我想我当时在学校，或者是在假期里和朋友待在一起时听到这个消息的。even so 即便如此；so that 以便，均不合句意，故选 D。", "tr": "我想我当时在学校，要不就是假期里和朋友在一起时听到了这个消息。", "star": 0}, {"kind": "q", "n": 9, "stem": "_____, I think, and the problems could be settled.", "opts": ["If you double your efforts", "So long as you keep up your spirits", "Making greater efforts", "A bit more efforts"], "ans": 3, "answer": "D", "kp": "祈使句 + and 句型", "exp": "“祈使句/名词短语 + and + 陈述句”是固定句型，and 前的部分须是祈使句或名词短语，不能用从句或分词短语。A、B 是从句，C 是分词短语，均不能与 and 搭配，故选 D（名词短语相当于省略的祈使句）。", "tr": "再努力一点，问题就能解决了。", "star": 1}, {"kind": "q", "n": 10, "stem": "They asked me to have a dinner in an excellent restaurant with them, I said that it was at least five years since I _____ a good meal.", "opts": ["had enjoyed", "was enjoying", "enjoyed", "had been enjoying"], "ans": 2, "answer": "C", "kp": "动词时态", "exp": "在“It is/was + 时间段 + since 从句”结构中，since 引导的从句要用一般过去时，表示“自从（过去某动作发生）以来已经多久了”，故选 C。", "tr": "他们邀我和他们去一家很好的餐厅吃饭，我说我至少有五年没有好好吃过一顿饭了。", "star": 0}, {"kind": "q", "n": 11, "stem": "— Why do you suggest Guilin?\n— I believe _____ beauty of _____ nature there will make _____ excellent impression upon the tourists.", "opts": ["a, the, an", "the, the, an", "the, /, the", "the, /, an"], "ans": 3, "answer": "D", "kp": "冠词的用法", "exp": "beauty 后有 of 短语限定，表特指，用 the；nature 表示“大自然”时前面不加冠词；make an impression on/upon sb. 是固定搭配，excellent 以元音开头用 an，故选 D。", "tr": "——你为什么推荐桂林？——我相信那里大自然的美景会给游客留下极好的印象。", "star": 0}, {"kind": "q", "n": 12, "stem": "— Mum, is the pair of gloves _____ mine?\n— Yes. You have to wear another pair.", "opts": ["washing", "have washed", "having washed", "being washed"], "ans": 3, "answer": "D", "kp": "非谓语动词作定语", "exp": "gloves 与 wash 之间是被动关系，且由语境可知“正在被洗”，须用现在分词的被动式 being washed 作后置定语，故选 D。", "tr": "——妈妈，那副正在洗的手套是我的吗？——是的，你得戴另外一副。", "star": 0}, {"kind": "q", "n": 13, "stem": "_____ you failed to pass the examination is your own business.", "opts": ["What", "Who", "That", "Whether"], "ans": 2, "answer": "C", "kp": "主语从句", "exp": "从句“你没能通过考试”句意完整、不缺成分，应由 that 引导（that 在从句中不充当成分、不省略）。what/who 须在从句中充当成分；whether 表“是否”，不合句意，故选 C。", "tr": "你没通过考试是你自己的事。", "star": 0}, {"kind": "q", "n": 14, "stem": "My brother is very tall. The little bed won't _____ for him.", "opts": ["prepare", "match", "fit", "do"], "ans": 3, "answer": "D", "kp": "动词辨析", "exp": "do for sb. 意为“对某人适用、够某人用”。match 强调“相配”，fit 强调“（尺寸）合身”，prepare 须用 prepare sth. for sb.。句意：这张小床对他不合适，故选 D。", "tr": "我弟弟个子很高，这张小床对他不合适。", "star": 0}, {"kind": "q", "n": 15, "stem": "I like _____ when my parents are friendly to me.", "opts": ["it", "that", "these", "them"], "ans": 0, "answer": "A", "kp": "it 的特殊用法", "exp": "like/appreciate/hate 等动词后接 when/if 引导的从句时，须先用 it 作形式宾语，构成 “like it when…”，故选 A。", "tr": "我喜欢父母对我和蔼可亲的时候。", "star": 0}, {"kind": "q", "n": 16, "stem": "— I didn't do well in the exam. What about you?\n— I did _____ you. Maybe even worse.", "opts": ["not better than", "not worse than", "as well as", "no better than"], "ans": 3, "answer": "D", "kp": "比较结构的习惯用法", "exp": "no better than 意为“和……一样差、并不比……好”，相当于 as bad as；not better than 只是客观比较“不比……好”。由后半句 Maybe even worse 可知两人考得都差，故选 D。", "tr": "——我这次考试没考好，你呢？——我和你一样糟，可能还更差。", "star": 0}, {"kind": "q", "n": 17, "stem": "I read about this story in some book or other. Does it matter _____ it was?", "opts": ["where", "what", "how", "which"], "ans": 3, "answer": "D", "kp": "连词辨析", "exp": "上文说 in some book or other（某本书），问句承接上文问“是哪一本”，在已知范围内选择用 which，故选 D。", "tr": "我在某本书里读到过这个故事。是哪个（哪本书）重要吗？", "star": 0}, {"kind": "q", "n": 18, "stem": "— Do you know where my blue coat is?\n— Don't bother to look for it. I'm sure it will _____ someday.", "opts": ["turn out", "turn on", "turn up", "turn over"], "ans": 2, "answer": "C", "kp": "动词短语辨析", "exp": "turn up 意为“出现、露面、（被）找到”；turn out 结果是；turn on 打开；turn over 翻转。句意：我肯定它哪天会自己冒出来的，故选 C。", "tr": "——你知道我的蓝色外套在哪儿吗？——别费劲找了，我肯定它哪天会出现的。", "star": 0}, {"kind": "q", "n": 19, "stem": "Whether by accident or _____, he arrived too late to help us.", "opts": ["purpose", "aim", "design", "chance"], "ans": 2, "answer": "C", "kp": "固定搭配", "exp": "by accident（偶然）与 by design（故意）是一对固定搭配，whether by accident or design 意为“不管是巧合还是有意”，故选 C。", "tr": "不管是偶然还是有意，他到得太晚，没能帮上我们。", "star": 0}, {"kind": "q", "n": 20, "stem": "— Shall I go and buy two more bottles of beer?\n— No, I've already bought twenty. That _____ be enough for us two.", "opts": ["can", "may", "ought to", "might"], "ans": 2, "answer": "C", "kp": "情态动词", "exp": "ought to 表示“按理应该、想必会”，语气上表示有把握的推测，符合“已经买了二十瓶，应该够咱俩喝了”。can/may/might 表可能性时把握程度不足，故选 C。", "tr": "——要我去再买两瓶啤酒吗？——不用，我已经买了二十瓶，应该够咱俩喝了。", "star": 0}, {"kind": "q", "n": 21, "stem": "She looks quite young _____ her age.", "opts": ["at", "by", "for", "to"], "ans": 2, "answer": "C", "kp": "介词辨析", "exp": "for 在此表示“就……而言、相对于”，for her age 意为“就她的年纪来说”，故选 C。", "tr": "就她的年纪而言，她看起来相当年轻。", "star": 0}, {"kind": "q", "n": 22, "stem": "Through English we will be able to communicate _____ part of the world we come from.", "opts": ["in which", "even if", "whatever", "wherever"], "ans": 2, "answer": "C", "kp": "连词辨析", "exp": "whatever 修饰名词 part，意为“无论哪一部分”，相当于 no matter what；wherever 是副词性连词不能修饰名词；in which 引导定语从句，此处没有先行词，故选 C。", "tr": "通过英语，我们将能够与来自世界任何地方的人交流。", "star": 0}, {"kind": "q", "n": 23, "stem": "It is the first time that you have come to China, _____?", "opts": ["haven't you", "isn't it", "hasn't it", "aren't you"], "ans": 1, "answer": "B", "kp": "反意疑问句", "exp": "主句为 It is the first time that… 时，反意疑问部分应与主句保持一致，即对 It is 提问，用 isn't it，故选 B。", "tr": "这是你第一次来中国，是吗？", "star": 0}, {"kind": "q", "n": 24, "stem": "He went there, _____ some books and call on seeing an old friend of his.", "opts": ["bought", "buying", "buy", "to buy"], "ans": 0, "answer": "A", "kp": "并列谓语", "exp": "句中 went、空格处与 call 是三个并列的谓语动词（call 承前省略了主语与情态，实为 called），并列谓语须保持时态一致，都用一般过去时，故选 A。", "tr": "他去了那儿，买了几本书，还去看望了一位老朋友。", "star": 0}, {"kind": "q", "n": 25, "stem": "The country life he was used to _____ greatly since the opening policy.", "opts": ["change", "has changed", "changing", "having changed"], "ans": 1, "answer": "B", "kp": "句子结构分析与时态", "exp": "he was used to 是定语从句，修饰主语 The country life；主句缺少谓语动词，须填谓语形式（排除 C、D）。再由 since（自从……以来）可知主句用现在完成时，故选 B。", "tr": "自从实行开放政策以来，他所习惯的乡村生活发生了巨大变化。", "star": 1}, {"kind": "q", "n": 26, "stem": "He had promised me to come to the party, and _____.", "opts": ["so did he", "so he did", "so he would", "so would he"], "ans": 1, "answer": "B", "kp": "so 的两种句式", "exp": "“so + 助动词 + 主语”表示“某人也一样”（倒装）；“so + 主语 + 助动词”表示“确实如此”（不倒装）。前句说他答应过要来，后句强调“他确实来了”，用 so he did，故选 B。", "tr": "他答应过我要来参加聚会，而他也确实来了。", "star": 0}, {"kind": "q", "n": 27, "stem": "— He hasn't finished the work yet.\n— Well, he _____.", "opts": ["ought", "ought to", "ought to have", "ought to have finished"], "ans": 2, "answer": "C", "kp": "情态动词的省略", "exp": "ought to have done 表示“本应该做而实际未做”，承接上文时 finished 可省略，只保留 ought to have，故选 C。（D 项虽意思相近，但英语中习惯省略重复的过去分词。）", "tr": "——他还没完成工作。——是啊，他本该完成的。", "star": 0}, {"kind": "q", "n": 28, "stem": "— You must obey every word of mine!\n— _____ I don't?", "opts": ["How if", "What if", "Such as", "Only if"], "ans": 1, "answer": "B", "kp": "固定句式", "exp": "What if…? 是固定句式，意为“如果……会怎么样？/要是……怎么办？”，后接陈述句语序，故选 B。Only if 只有；Such as 例如，均不符。", "tr": "——你必须听我的每一句话！——要是我不听呢？", "star": 0}, {"kind": "q", "n": 29, "stem": "— I hope you enjoyed the film last night.\n— How on earth do you know I went to a film? I _____ you.", "opts": ["won't tell", "didn't tell", "haven't told", "hadn't told"], "ans": 2, "answer": "C", "kp": "动词时态", "exp": "语境强调到现在为止“我从未告诉过你”，并对现在造成影响（你怎么会知道），用现在完成时 haven't told，故选 C。", "tr": "——希望你昨晚的电影看得愉快。——你到底怎么知道我去看电影了？我可没告诉过你啊。", "star": 0}, {"kind": "q", "n": 30, "stem": "Philippine president Gloria Macapagal Arroyo _____ another term in office, _____ her closest rival（对手）, film star Fernando Poe Junior.", "opts": ["won; beating", "got; winning", "got; won", "won; beat"], "ans": 0, "answer": "A", "kp": "动词辨析与非谓语动词", "exp": "“赢得任期/选举”用 win（win a term/election），排除 B、C；第二空表示伴随结果，且与主语是主动关系，须用现在分词 beating，故选 A。", "tr": "菲律宾总统格洛丽亚·马卡帕加尔·阿罗约赢得了又一个任期，击败了她最强劲的对手、影星费尔南多·波伊·朱尼尔。", "star": 0}, {"kind": "q", "n": 31, "stem": "The traffic problem we are looking forward seeing _____ should have attracted the local government's attention.", "opts": ["solving", "solve", "to solve", "solved"], "ans": 3, "answer": "D", "kp": "非谓语动词作宾补", "exp": "look forward to seeing 后接复合宾语：see + 宾语 + 宾补。problem 与 solve 是被动关系，故用过去分词 solved 作宾补（see the problem solved 看到问题被解决），故选 D。", "tr": "我们一直期待看到其得到解决的交通问题，本该引起当地政府的重视。", "star": 1}, {"kind": "q", "n": 32, "stem": "— He ought to have been warned of the danger.\n— _____, but he just wouldn't listen to me.", "opts": ["So ought he", "So he was", "So was he", "So he had"], "ans": 1, "answer": "B", "kp": "so 的两种句式", "exp": "上文说他本该被警告，答句表示“他确实被警告过（但他就是不听）”。“so + 主语 + 助动词”表确实如此，不倒装；此处助动词用 was（be warned），故选 B。", "tr": "——他本该被警告有危险的。——他确实被警告过，可他就是不听我的。", "star": 0}, {"kind": "q", "n": 33, "stem": "The cruelty of the terrorists towards the two Chinese engineers in Pakistan and _____ of the terrorists towards America in September 11, filled everyone with horror.", "opts": ["those", "that", "one", "it"], "ans": 1, "answer": "B", "kp": "代词的用法", "exp": "空格处替代前面的不可数名词 cruelty，且后面有 of 短语限定，须用 that；those 替代复数名词，故选 B。", "tr": "恐怖分子对巴基斯坦两名中国工程师的残暴行径，以及他们在 9·11 事件中对美国的暴行，令所有人感到恐惧。", "star": 0}, {"kind": "q", "n": 34, "stem": "It was not until she had arrived home _____ her appointment with the doctor.", "opts": ["did she remember", "that she remembered", "when she remembered", "had she remembered"], "ans": 1, "answer": "B", "kp": "强调句型", "exp": "这是“It was not until… that…”强调句型，对 not until 引导的时间状语进行强调，that 引导的从句用陈述语序且不倒装，故选 B。", "tr": "直到她回到家，她才想起与医生的预约。", "star": 1}, {"kind": "q", "n": 35, "stem": "Help has already come from them, but the aid is _____ near what we expected.", "opts": ["everywhere", "somewhere", "anywhere", "nowhere"], "ans": 3, "answer": "D", "kp": "固定搭配", "exp": "nowhere near 是固定短语，意为“远不及、根本比不上”，故选 D。", "tr": "他们已经提供了帮助，但援助与我们的期望相差甚远。", "star": 0}, {"kind": "q", "n": 36, "stem": "— Would you like to go to the cinema with me this evening?\n— I'd like to, but I won't be free tonight. Let's make _____ some other day.", "opts": ["it", "them", "you", "this"], "ans": 0, "answer": "A", "kp": "固定搭配", "exp": "make it 是固定用法，可表示“约定（时间）、办成、赶到”，此处意为“改天再约”，故选 A。", "tr": "——今晚愿意和我去看电影吗？——我很想去，但今晚没空，咱们改天吧。", "star": 0}, {"kind": "q", "n": 37, "stem": "You have made a few spelling mistakes in your composition, but _____, it is fairly good.", "opts": ["on the whole", "generally speaking", "above all", "on one hand"], "ans": 0, "answer": "A", "kp": "插入语辨析", "exp": "on the whole 意为“总的看来、大体上”，用于对事物作出整体评价；generally speaking 意为“一般来说”，用于泛泛而论；above all 最重要的是；on one hand 一方面。故选 A。", "tr": "你的作文里有几处拼写错误，但总的来看还是相当不错的。", "star": 0}, {"kind": "q", "n": 38, "stem": "I hear Mr. Smith was writing a story last year and he still _____.", "opts": ["do", "does", "is", "am"], "ans": 2, "answer": "C", "kp": "时态与省略", "exp": "由 still 可知“现在仍然在写”，用一般现在时；又因前面谓语是 was writing（含 be 动词），省略时保留 be 动词，主语 he 用 is（= he is still writing），故选 C。", "tr": "我听说史密斯先生去年在写一个故事，现在他还在写。", "star": 0}, {"kind": "q", "n": 39, "stem": "— Why do you want the book so much?\n— _____, sir.", "opts": ["Studying", "Studied", "Studies", "To study"], "ans": 3, "answer": "D", "kp": "非谓语动词", "exp": "问句问“为什么”，答语应说明目的，用不定式 To study 回答，相当于 I want it to study，故选 D。", "tr": "——你为什么这么想要这本书？——为了学习，先生。", "star": 0}, {"kind": "q", "n": 40, "stem": "_____ that they are inexperienced, they have done a good job.", "opts": ["Giving", "To give", "Given", "If given"], "ans": 2, "answer": "C", "kp": "固定结构", "exp": "Given that… 是固定结构，意为“考虑到、鉴于”，在句中作状语，故选 C。If given 后一般不接 that 从句。", "tr": "考虑到他们缺乏经验，他们已经做得很好了。", "star": 0}, {"kind": "q", "n": 41, "stem": "_____ you may be right, I can't agree completely.", "opts": ["While", "As", "If", "Since"], "ans": 0, "answer": "A", "kp": "连词辨析", "exp": "while 除表示“当……时”外，还可引导让步状语从句，意为“虽然、尽管”，符合“虽然你可能是对的，但我不能完全同意”，故选 A。", "tr": "虽然你可能是对的，但我不能完全同意。", "star": 0}, {"kind": "q", "n": 42, "stem": "— These boxes are too heavy for me to move.\n— Here, I'll give you a hand _____ them.", "opts": ["for", "to", "with", "by"], "ans": 2, "answer": "C", "kp": "固定搭配", "exp": "give sb. a hand with sth. 是固定搭配，意为“帮某人做某事”，故选 C。", "tr": "——这些箱子太重，我搬不动。——来，我帮你搬。", "star": 0}, {"kind": "q", "n": 43, "stem": "All substance, _____ solid, liquids or gases, are made up of entirely storms.", "opts": ["whether they", "whether", "whether are they", "whether are"], "ans": 1, "answer": "B", "kp": "让步状语从句的省略", "exp": "whether 引导的让步状语从句中，若主语与主句主语一致且谓语含 be 动词，可省略为 “whether + 表语”，此处填 whether，故选 B。", "tr": "一切物质，无论固体、液体还是气体，都是由微小的粒子构成的。", "star": 0}, {"kind": "q", "n": 44, "stem": "— Look! Here _____.\n— Oh, yes, here _____.", "opts": ["the bus comes…it comes", "comes the bus…comes it", "does the bus come…does it come", "comes the bus…it comes"], "ans": 3, "answer": "D", "kp": "倒装结构", "exp": "here 位于句首引起全部倒装，但主语是人称代词时不倒装。第一空主语是名词 the bus，须倒装为 comes the bus；第二空主语是代词 it，不倒装，用 it comes，故选 D。", "tr": "——看！车来了。——哦，是的，它来了。", "star": 1}, {"kind": "q", "n": 45, "stem": "It is partly _____ the summer day is longer that everything has a larger time to warm up.", "opts": ["for", "that", "the reason", "because"], "ans": 3, "answer": "D", "kp": "强调句型", "exp": "这是强调句 It is… that…，被强调部分是 because 引导的原因状语从句（partly because the summer day is longer），故选 D。", "tr": " partly 因为夏季白天更长，万物才有更长的受热时间。", "star": 0}, {"kind": "q", "n": 46, "stem": "The US/UK war against Iraq and the suffering _____ caused have become a big concern all over the world.", "opts": ["what", "which", "it", "×"], "ans": 2, "answer": "C", "kp": "定语从句", "exp": "suffering 后的定语从句为 (that) it caused，关系代词 that 在从句中作宾语可省略，从句主语用 it 指代 the war，故选 C。", "tr": "美英对伊拉克的战争及其造成的苦难已成为全世界关注的大事。", "star": 0}, {"kind": "q", "n": 47, "stem": "— She carried off the first winter Olympic _____ medal for China.\n— Great! What _____ she won for our motherland!", "opts": ["golden; honor", "gold; honor", "golden; honors", "gold; honors"], "ans": 1, "answer": "B", "kp": "名词作定语与词义辨析", "exp": "“金牌”固定用 gold medal（gold 作定语），golden 多表示“金色的、金黄色的”；honor 在此表示抽象的“荣誉”，为不可数名词，故选 B。", "tr": "——她为中国夺得第一枚冬季奥运会金牌。——太棒了！她为我们祖国赢得了多大的荣誉啊！", "star": 0}, {"kind": "q", "n": 48, "stem": "Some of the students have already learned enough English to _____ a conversation with a native English speaker.", "opts": ["hold on", "keep on", "go on", "carry on"], "ans": 3, "answer": "D", "kp": "动词短语辨析", "exp": "carry on a conversation 意为“进行（开展）会话”；hold on 别挂断、坚持；keep on 继续（keep on doing）；go on 继续（go on doing）。故选 D。", "tr": "一些学生已经掌握了足够的英语，可以与以英语为母语的人进行对话。", "star": 0}, {"kind": "q", "n": 49, "stem": "— _____ Mr. Smith _____ this week?\n— No. He is on holiday.", "opts": ["Has; worked", "Does; work", "Did; work", "Is; working"], "ans": 3, "answer": "D", "kp": "动词时态", "exp": "this week 表示“本周（现阶段）”，且答句 He is on holiday 说明现在的状态，询问本周是否在工作应用现在进行时，故选 D。", "tr": "——史密斯先生本周上班吗？——没有，他在休假。", "star": 0}, {"kind": "q", "n": 50, "stem": "— Got your driving license?\n— No. I _____ too busy to have enough practice, so I didn't take the driving test last week.", "opts": ["was", "am", "have been", "had been"], "ans": 3, "answer": "D", "kp": "动词时态", "exp": "“没去参加上周的考试”是过去的事，而“忙得没时间练车”发生在那之前并持续了一段时间，即“过去的过去”，用过去完成时 had been，故选 D。", "tr": "——拿到驾照了吗？——没有。我之前一直太忙，没练够，所以上周没参加驾照考试。", "star": 0}, {"kind": "sec", "id": "part2a", "label": "第二部分　阅读理解（共 20 分）", "en": "Part II　Reading Comprehension", "title": "二、阅读判断", "meta": "本大题共 10 小题，每小题 1 分，共 10 分。", "en_dir": "Section A: True or False（共 10 题，每小题 1 分，满分 10 分）\nDirections: In this section, you will read a passage. After reading, there are 10 statements. You need to indicate whether each of the statements is true or false. For each of the statement, choose A for True and B for False. Mark your answer on the ANSWER SHEET with a single line through the center of the letter that indicates your choice."}, {"kind": "psg", "name": "Soft Skills in College", "paras": ["I don't want to say that you'll never learn soft skills in the classroom. If you're required to do a group project, then that's an opportunity to practice collaborative teamwork, managing conflict, negotiation, and effective communication (not to mention expectation management). There are even classes in soft skills like public speaking or management. But the best opportunities to hone your soft skills are outside the classroom. Here are a few ways you can get soft skill experience in college:", "Being a tour guide\nWant to get better at talking to strangers and answering tough questions on the spot? Tour guide is the perfect job. You'll have to deal with everything from weird (奇怪的) work hours to bored students to over-concerned parents. Not to mention that all the information you learn about your college could translate into a full-time career.", "Leading a student organization\nI hardly need to explain all the soft skills you can learn from this. You'll have to manage conflicts between members, negotiate sensitive topics such as budgets, and negotiate to allow the school administration to let you have events. Your self-confidence will increase, and you'll have no shortage of opportunities to accept criticism with grace.", "Working a part-time job\nEspecially if it's a job where you have to interact with people regularly. Since I've been in college, I've worked everywhere from the campus post office to the English department office. These jobs were (and continue to be) one of my biggest sources for mastering soft skills. Retrieving packages for a dozen impatient students at once has taught me to be calm in stressful situations, and working as a professor's assistant has taught me how to translate current technical information into terms that someone who remembers JFK's inauguration can understand.", "As a bonus, these jobs are great for picking up key hard skills as well. As you can now see, college may be one of the best times in your life to develop your soft skills in a no-pressure environment. Just pick a couple of the ideas above (or come up with your own) and get to work on it."]}, {"kind": "q", "n": 51, "stem": "If you're required to do a group project, that's an opportunity to practice collaboration, managing conflict, negotiation, and effective communication.", "opts": ["True", "False"], "ans": 0, "answer": "A", "kp": "细节判断题", "exp": "原文开头即说：If you're required to do a group project, then that's an opportunity to practice collaborative teamwork, managing conflict, negotiation, and effective communication. 与题干完全一致，故选 A。", "tr": "如果被要求做小组项目，那就是练习协作、处理冲突、谈判和有效沟通的机会。", "star": 0}, {"kind": "q", "n": 52, "stem": "The best opportunities to improve your soft skills are in the classroom.", "opts": ["True", "False"], "ans": 1, "answer": "B", "kp": "细节判断题", "exp": "原文明确说：But the best opportunities to hone your soft skills are **outside** the classroom.（最好的机会在课堂之外）。题干说 in the classroom，与原文相反，故选 B。", "tr": "提升软技能的最佳机会在课堂上。", "star": 0}, {"kind": "q", "n": 53, "stem": "Tour guide help you to get better at talking to strangers and answering tough questions on the spot.", "opts": ["True", "False"], "ans": 0, "answer": "A", "kp": "细节判断题", "exp": "原文 Being a tour guide 一段说：Want to get better at talking to strangers and answering tough questions on the spot? Tour guide is the perfect job. 与题干一致，故选 A。", "tr": "做导游能帮助你更善于与陌生人交谈并当场回答尖锐问题。", "star": 0}, {"kind": "q", "n": 54, "stem": "You'll have to deal with everything from strange work hours to bored students to over-concerned parents.", "opts": ["True", "False"], "ans": 0, "answer": "A", "kp": "细节判断题", "exp": "原文：You'll have to deal with everything from weird (奇怪的) work hours to bored students to over-concerned parents. strange 与 weird 同义，其余内容一致，故选 A。", "tr": "你得应付各种情况，从奇怪的工作时间到厌烦的学生，再到过度操心的家长。", "star": 0}, {"kind": "q", "n": 55, "stem": "All the information you learn about your college could translate into a part-time career.", "opts": ["True", "False"], "ans": 1, "answer": "B", "kp": "细节判断题", "exp": "原文说的是 …could translate into a **full-time** career（全职职业），题干改成了 part-time（兼职），与原文不符，故选 B。", "tr": "你了解到的有关学校的所有信息都可能转化为一份兼职工作。", "star": 0}, {"kind": "q", "n": 56, "stem": "Leading a student organization helps you become more confident.", "opts": ["True", "False"], "ans": 0, "answer": "A", "kp": "细节判断题", "exp": "原文 Leading a student organization 一段说：Your self-confidence will increase…（你的自信心会增强），与题干含义相同，故选 A。", "tr": "领导一个学生组织能让你变得更加自信。", "star": 0}, {"kind": "q", "n": 57, "stem": "These part-time jobs were one of the biggest sources for mastering soft skills.", "opts": ["True", "False"], "ans": 0, "answer": "A", "kp": "细节判断题", "exp": "原文：These jobs were (and continue to be) one of my biggest sources for mastering soft skills. 与题干一致，故选 A。", "tr": "这些兼职工作是掌握软技能的最大来源之一。", "star": 0}, {"kind": "q", "n": 58, "stem": "Retrieving packages for a dozen patient students at once has taught me to be calm in stressful situations.", "opts": ["True", "False"], "ans": 1, "answer": "B", "kp": "细节判断题", "exp": "原文是 Retrieving packages for a dozen **impatient**（不耐烦的）students at once…，题干把 impatient 改成了 patient（有耐心的），意思正好相反，故选 B。", "tr": "同时为一打有耐心的学生取包裹，教会了我在压力下保持冷静。", "star": 0}, {"kind": "q", "n": 59, "stem": "These part-time jobs are useful for picking up key hard skills as well.", "opts": ["True", "False"], "ans": 0, "answer": "A", "kp": "细节判断题", "exp": "原文：As a bonus, these jobs are great for picking up key hard skills as well. 与题干一致，故选 A。", "tr": "这些兼职工作也有助于掌握关键的硬技能。", "star": 0}, {"kind": "q", "n": 60, "stem": "College may be one of the best times in your life to develop your soft skills in a pressure environment.", "opts": ["True", "False"], "ans": 1, "answer": "B", "kp": "细节判断题", "exp": "原文末句说的是 …in a **no-pressure** environment（无压力的环境），题干改为 in a pressure environment，与原文相反，故选 B。", "tr": "大学可能是你一生中在高压环境下培养软技能的最佳时期之一。", "star": 0}, {"kind": "sec", "id": "part2b", "label": "", "en": "", "title": "三、阅读选择", "meta": "本大题共 10 小题，每小题 1 分，共 10 分。", "en_dir": "Section B: Reading Comprehension（共 10 题，每小题 1 分，满分 10 分）\nDirections: There are 2 passages in this part. Each passage is followed by 5 questions or unfinished statements. For each of them there are 4 choices marked A, B, C and D. Choose the best one and mark your answer on the ANSWER SHEET with a single bar through the center of the letter that indicates your choice."}, {"kind": "psg", "name": "Passage 1　Time Management", "paras": ["Life as a student is relatively carefree as we are rid of most of the regular responsibilities of adult life, save for some that concern our personal development. With each year that passes by we must grow in maturity and wisdom, and one aspect of maturing is to know how to manage your time. Time management is important for students because of the following reasons.", "1. Forming Good Habit\nIt may be clichéd, but it is true that time and tide wait for no man. Each of us has the same 24 hours in a day, but some of us manage to get more accomplished because they use time more efficiently. This is the difference between successful, responsible adults and others who don't value time. When you get into the habit of procrastinating（拖延）as a student, you tend to do the same when you're an adult. Habits learned at early ages are hard to change as one grows older.", "2. Learning Efficiently\nWhen you know how to manage time well, you become adept at studying quickly and more efficiently. This allows you to maintain good grades throughout college and secure a good job on graduation, one that pays well and allows you to lead a comfortable life.", "3. Enriching College Life\nCollege is not all about studies and classes; there are other activities and interests that you can pursue and which most students seldom find quality time for. When you know how to manage your time well, you have enough time left for social and sporting activities even after devoting an adequate number of hours to your lessons.", "4. Preparing for Employment\nWhen you graduate and start your career, you need to make the most efficient use of your time if you want to be taken seriously and be appreciated by your employers. Even if you're in business for yourself, unless you know how to utilize time management tips effectively, you're going to find the going tough. Therefore, it is advisable to start practicing time management when in college, which helps prepare you for the working world, both in gaining employment and in retaining it."]}, {"kind": "q", "n": 61, "stem": "What is NOT mentioned in the passage as a benefit of time management?", "opts": ["Improving learning efficiency.", "Avoiding procrastination.", "Getting prepared for the future job.", "Becoming healthier and happier."], "ans": 3, "answer": "D", "kp": "细节理解题（反向选择）", "exp": "第 2 点讲提高学习效率（A），第 1 点讲改掉拖延的习惯（B），第 4 点讲为就业做准备（C）；只有 D“变得更健康更快乐”全文未提及，故选 D。", "tr": "下面哪一项不是文中提到的时间管理的好处？", "star": 0}, {"kind": "q", "n": 62, "stem": "The phrase “adept at” in Para. 3 most probably means _____.", "opts": ["liable to", "fond of", "good at", "accustomed to"], "ans": 2, "answer": "C", "kp": "词义猜测题", "exp": "原文 you become adept at studying quickly and more efficiently（你变得能够又快又高效地学习），adept at 意为“擅长、精通”，与 good at 同义，故选 C。liable to 易于；fond of 喜欢；accustomed to 习惯于。", "tr": "第三段中的短语 “adept at” 最可能的意思是________。", "star": 0}, {"kind": "q", "n": 63, "stem": "According to Para. 4, college students will _____ by managing time well.", "opts": ["have more time for a full-time job", "have less time for a part-time job", "have less time for their classes", "have more time for after-class activities"], "ans": 3, "answer": "D", "kp": "细节理解题", "exp": "第 4 段（3. Enriching College Life）说：管理好时间后，即使在学习上投入足够时间，仍有剩余时间参加社交和体育活动，即有更多课外活动时间，故选 D。", "tr": "根据第四段，大学生通过合理管理时间会________。", "star": 0}, {"kind": "q", "n": 64, "stem": "It can be inferred from the last paragraph that _____.", "opts": ["employers like employees who can manage time efficiently", "employers like employees who take them seriously", "self-employed people needn't worry about time management", "it would be better to start time management after graduation"], "ans": 0, "answer": "A", "kp": "推理判断题", "exp": "末段说要想 be taken seriously and be appreciated by your employers（被老板重视和赏识），就必须高效利用时间，可推知雇主喜欢善于管理时间的员工，故选 A。C 与原文 unless you know how to utilize… 矛盾；D 与 advisable to start… in college 矛盾。", "tr": "从最后一段可以推断出________。", "star": 0}, {"kind": "q", "n": 65, "stem": "What is the main idea of this passage?", "opts": ["Time management is an important aspect of maturing.", "There are some benefits of time management for students.", "Students should learn the tips on time management.", "Time management helps improve learning efficiency."], "ans": 1, "answer": "B", "kp": "主旨大意题", "exp": "文章开篇点题：Time management is important for students because of the following reasons.，随后用小标题列出四点好处，故主旨是“时间管理给学生带来的种种好处”，选 B。A、C、D 都只涉及某一方面，不能概括全篇。", "tr": "这篇文章的主旨是什么？", "star": 0}, {"kind": "psg", "name": "Passage 2　Grandma's Stories", "paras": ["Grandma was a wonderful story-teller, and she had a set of priceless, individually (独特地) tailored stories with which American grandparents of her day brought up children. There was the story of the little boys who had been taught complete, quick obedience (服从). One day when they were out on the grassy plain, their father shouted. “Fall down on your faces!” They did, and the terrible prairie (草原) fire swept over them and they weren't hurt. There was also the story of three boys at school, each of whom received a cake sent from home. One saved his, and the mice ate it; one ate all of his, and he got sick; and who do you think had the best time? — Why, of course, the one who shared his cake with his friends."]}, {"kind": "q", "n": 66, "stem": "What is the main idea of this passage?", "opts": ["Children should obey their parents quickly.", "Children should share with others.", "The author remembers many of her grandma's wonderful stories.", "The grandma's stories helped teach the children morals and good manners."], "ans": 3, "answer": "D", "kp": "主旨大意题", "exp": "全文讲祖母用一套“量身定制”的故事来教育孩子：一个故事教孩子服从（因而躲过大火），一个故事教孩子分享（分享蛋糕的孩子最快乐）。主旨是这些故事承担着道德与行为教育的作用，故选 D。A、B 各只对应一个故事，C 偏离主旨。", "tr": "这篇文章的主旨是什么？", "star": 0}, {"kind": "q", "n": 67, "stem": "Which of the following details supports the main idea of the passage?", "opts": ["The children were saved from the fire because they followed directions.", "Grandma told a story of three boys at school.", "Each of the three boys got a cake sent from home.", "The big prairie fire soon spread over to the village."], "ans": 0, "answer": "A", "kp": "推理判断题", "exp": "A 项“孩子们因听从指令而幸免于难”最能体现故事教育孩子服从（服从带来好处）的主旨，是直接支撑主旨的细节，故选 A。B、C 只是故事的情节；D 与原文不符（火从他们身上扫过，并未蔓延到村庄）。", "tr": "下列哪个细节能支持本文的主旨？", "star": 0}, {"kind": "q", "n": 68, "stem": "Which of the following statements is true?", "opts": ["The author was saved from the fire.", "The author was brought up from his grandmother.", "Grandma was good at telling children stories.", "Grandma told stories to children just for fun."], "ans": 2, "answer": "C", "kp": "是非判断题", "exp": "首句即说 Grandma was a wonderful story-teller（祖母是出色的讲故事能手），故 C 正确。A 把故事中的孩子误当作作者；B 说作者由祖母抚养，文中无据；D 与 stories… brought up children（用于教育孩子）不符。", "tr": "下列哪一项说法是正确的？", "star": 0}, {"kind": "q", "n": 69, "stem": "All of the following were not praised by the author except _____.", "opts": ["the boy who shared his cake with others", "the boy who ate up all his cake by himself", "the boy who kept the cake for the future", "the boys who didn't obey their parents"], "ans": 0, "answer": "A", "kp": "细节理解题（双重否定）", "exp": "题干 All…were not praised… except 意为“除……之外都没有受到称赞”，即问“谁受到了称赞”。原文说 of course, the one who shared his cake with his friends（当然是和朋友们分享蛋糕的那个），故选 A；B（吃光蛋糕生病）、C（存起来被老鼠吃掉）都未受称赞。", "tr": "以下所有人都没有受到作者的称赞，除了________。", "star": 0}, {"kind": "q", "n": 70, "stem": "According to this passage, the underlined word “tailored” probably means _____.", "opts": ["measured", "specially prepared", "cut", "invented"], "ans": 1, "answer": "B", "kp": "词义猜测题", "exp": "tailored 原指“（为某人）量身裁剪的”，文中 individually tailored stories 指为每个孩子专门设计的故事，意为“专门准备的”，故选 B。measured 量尺寸；cut 裁剪；invented 发明，都只是字面或片面理解。", "tr": "根据本文，划线词 “tailored” 可能意为________。", "star": 0}];
+const STORE_KEY = 'english_practice_p2_v1';
+const LETTERS = "ABCD";
+const list = document.getElementById('list');
+let checked = false;
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function renderStem(s){
+  return esc(s).replace(/_{3,}/g, m=>`<span class="blank">${'&nbsp;'.repeat(Math.min(18,m.length))}</span>`);
+}
+
+const QMAP = new Map();   // 全局序号 -> 数据
+
+function build(){
+  let html = '';
+  DATA.forEach((it, i) => {
+    if (it.kind === 'sec'){
+      html += `<section class="sec">`
+        + (it.label ? `<div class="lbl">${esc(it.label)}</div>` : '')
+        + (it.en ? `<div class="en-lbl">${esc(it.en)}</div>` : '')
+        + `</section>`
+        + `<div class="dir"><h2>${esc(it.title)}　<span class="kp">${esc(it.meta)}</span></h2>`
+        + `<p class="en">${esc(it.en_dir)}</p></div>`;
+      return;
+    }
+    if (it.kind === 'psg'){
+      const paras = it.paras.map(p => `<p data-edit contenteditable="false" spellcheck="false">${esc(p)}</p>`).join('');
+      html += `<article class="psg"><h3 data-edit contenteditable="false" spellcheck="false">${esc(it.name)}</h3>${paras}</article>`;
+      return;
+    }
+    const opts = it.opts.map((o, j) =>
+      `<div class="opt" data-o="${j}"><span class="lt">${LETTERS[j]}.</span>`
+      + `<span class="tx" data-edit contenteditable="false" spellcheck="false">${esc(o)}</span></div>`).join('');
+    const idx = QMAP.size;
+    QMAP.set(String(idx), it);
+    html += `<article class="q" data-i="${idx}">
+      <div class="q-head">
+        <div class="num">${it.n}</div>
+        <div class="stem" data-edit contenteditable="false" spellcheck="false">${renderStem(it.stem)}${it.star?'<span class="star">★</span>':''}</div>
+      </div>
+      <div class="opts">${opts}</div>
+      <div class="ans">
+        <div class="ans-row">
+          <span class="badge ok">正确答案 ${LETTERS[it.ans]}</span>
+          <span class="kp">${esc(it.kp)}</span>
+          ${it.star?'<span class="kp" style="background:#fff4e8;color:#a35b00;border-color:#ffd8b0">★ 原卷重点标记</span>':''}
+        </div>
+        <p><span class="lab">解析：</span><span class="exp-t" data-edit contenteditable="false" spellcheck="false">${esc(it.exp)}</span></p>
+        <p class="tr"><span class="lab">译文：</span><span class="tr-t" data-edit contenteditable="false" spellcheck="false">${esc(it.tr)}</span></p>
+      </div>
+    </article>`;
+  });
+  list.innerHTML = html;
+  document.getElementById('cntAll').textContent = QMAP.size;
+}
+
+/* ---------- 编辑模式开关 ---------- */
+let editMode = false;
+function setEditMode(on){
+  editMode = on;
+  document.body.classList.toggle('edit-on', on);
+  document.querySelectorAll('[data-edit]').forEach(el=>el.setAttribute('contenteditable', on?'true':'false'));
+  document.querySelectorAll('.opt').forEach(o=>o.style.cursor = on?'text':'pointer');
+}
+
+/* ---------- 作答 ---------- */
+list.addEventListener('click', e=>{
+  if (editMode) return;
+  const opt = e.target.closest('.opt');
+  if (!opt) return;
+  const q = opt.closest('.q');
+  q.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  opt.classList.add('sel');
+  if (checked) mark(q);
+  updateScore(); save();
+});
+
+function mark(q){
+  const it = QMAP.get(q.dataset.i);
+  const picked = q.querySelector('.opt.sel');
+  q.classList.remove('correct','wrong');
+  q.querySelectorAll('.opt').forEach(o=>o.classList.remove('right','picked-wrong'));
+  if (!picked) return;
+  const ok = +picked.dataset.o === it.ans;
+  q.classList.add(ok?'correct':'wrong');
+  q.querySelector(`.opt[data-o="${it.ans}"]`).classList.add('right');
+  if (!ok) picked.classList.add('picked-wrong');
+}
+
+function updateScore(){
+  const qs = [...list.querySelectorAll('.q')];
+  const done = qs.filter(q=>q.querySelector('.opt.sel')).length;
+  const right = qs.filter(q=>q.classList.contains('correct')).length;
+  document.getElementById('cntDone').textContent = done;
+  document.getElementById('cntRight').textContent = right;
+}
+
+/* ---------- 按钮 ---------- */
+document.getElementById('btnCheck').onclick = ()=>{
+  checked = true;
+  list.querySelectorAll('.q').forEach(q=>{ mark(q); q.classList.add('show'); });
+  updateScore();
+};
+document.getElementById('btnShowAll').onclick = ()=>list.querySelectorAll('.q').forEach(q=>q.classList.add('show'));
+document.getElementById('btnHideAll').onclick = ()=>list.querySelectorAll('.q').forEach(q=>q.classList.remove('show'));
+document.getElementById('btnReset').onclick = ()=>{
+  checked = false;
+  list.querySelectorAll('.q').forEach(q=>{
+    q.classList.remove('correct','wrong','show');
+    q.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel','right','picked-wrong'));
+  });
+  updateScore(); save();
+};
+document.getElementById('btnEdit').onclick = function(){
+  const on = !editMode;
+  setEditMode(on);
+  this.textContent = on ? '退出编辑' : '编辑模式';
+  this.classList.toggle('primary', on);
+  this.insertAdjacentHTML('afterend', '');
+  document.body.classList.toggle('editing', on);
+  if (on){
+    let tag = document.createElement('span');
+    tag.className = 'badge-edit'; tag.textContent = '编辑中：可直接修改题目与解析文本';
+    this.style.marginLeft = '0'; this.after(tag);
+  } else {
+    document.querySelectorAll('.badge-edit').forEach(x=>x.remove());
+  }
+};
+document.getElementById('btnPrint').onclick = ()=>window.print();
+
+/* ---------- 本地保存 ---------- */
+function collect(){
+  const qs = [...list.querySelectorAll('.q')];
+  return {
+    picks: qs.map(q=>{const s=q.querySelector('.opt.sel'); return s?+s.dataset.o:null;}),
+    stems: qs.map(q=>q.querySelector('.stem').innerHTML),
+    opts:  qs.map(q=>[...q.querySelectorAll('.opt .tx')].map(x=>x.innerHTML)),
+    exps:  qs.map(q=>q.querySelector('.exp-t').innerHTML),
+    trs:   qs.map(q=>q.querySelector('.tr-t').innerHTML),
+    meta:  [...document.querySelectorAll('.meta b')].map(x=>x.innerHTML)
+  };
+}
+function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(collect())); }catch(e){} }
+function restore(){
+  let s; try{ s = JSON.parse(localStorage.getItem(STORE_KEY)||'null'); }catch(e){ return; }
+  if (!s) return;
+  const qs = [...list.querySelectorAll('.q')];
+  (s.stems||[]).forEach((v,i)=>{ if(qs[i] && v) qs[i].querySelector('.stem').innerHTML = v; });
+  (s.opts||[]).forEach((row,i)=>{ if(qs[i]) [...qs[i].querySelectorAll('.opt .tx')].forEach((el,j)=>{ if(row[j]!=null) el.innerHTML = row[j]; }); });
+  (s.exps||[]).forEach((v,i)=>{ if(qs[i] && v) qs[i].querySelector('.exp-t').innerHTML = v; });
+  (s.trs||[]).forEach((v,i)=>{ if(qs[i] && v) qs[i].querySelector('.tr-t').innerHTML = v; });
+  (s.meta||[]).forEach((v,i)=>{ const m=[...document.querySelectorAll('.meta b')][i]; if(m && v) m.innerHTML = v; });
+  (s.picks||[]).forEach((v,i)=>{ if(qs[i] && v!=null) qs[i].querySelector(`.opt[data-o="${v}"]`).classList.add('sel'); });
+  updateScore();
+}
+document.querySelectorAll('[data-edit]').forEach(()=>{});
+list.addEventListener('input', save);
+
+build();
+restore();
+list.querySelectorAll('[data-edit]').forEach(el=>el.addEventListener('blur', save));
+</script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>英语练习题（一）· 可编辑版（含答案解析）</title>
+<style>
+:root{
+  --bg:#f5f6f8; --card:#fff; --ink:#1f2329; --ink-2:#4e5969; --ink-3:#86909c;
+  --line:#e5e6eb; --line-2:#d9dce1;
+  --brand:#2f6bd8; --brand-soft:#eaf1fd;
+  --ok:#00a870; --ok-soft:#e6f7f0;
+  --bad:#e34d59; --bad-soft:#fdecee;
+  --warn:#ff7d00; --warn-soft:#fff4e8;
+  --radius:10px;
+  --shadow:0 1px 3px rgba(31,35,41,.06),0 6px 16px rgba(31,35,41,.05);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.75;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:22px 18px 90px}
+
+/* hero */
+.hero{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:26px 28px 22px;margin-bottom:16px}
+.hero h1{margin:0 0 12px;font-size:26px;letter-spacing:.5px;text-align:center}
+.meta{display:flex;flex-wrap:wrap;gap:14px 26px;justify-content:center;
+  border-top:1px dashed var(--line-2);padding-top:14px;font-size:14px;color:var(--ink-2)}
+.meta span b{font-weight:600;color:var(--ink)}
+
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:30;background:rgba(245,246,248,.94);
+  backdrop-filter:blur(8px);padding:10px 0 12px;margin-bottom:6px}
+.tools{display:flex;flex-wrap:wrap;gap:9px;align-items:center;background:var(--card);
+  border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;box-shadow:var(--shadow)}
+button{font:inherit;font-size:13.5px;cursor:pointer;border-radius:7px;padding:7px 14px;
+  border:1px solid var(--line-2);background:#fff;color:var(--ink-2);transition:.15s}
+button:hover{border-color:var(--brand);color:var(--brand)}
+button.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+button.primary:hover{background:#2559bb;color:#fff}
+button.ghost{background:transparent}
+.spacer{flex:1}
+.score{font-size:13.5px;color:var(--ink-2);white-space:nowrap}
+.score b{font-size:18px;color:var(--brand);font-variant-numeric:tabular-nums}
+.hint{font-size:12.5px;color:var(--ink-3);margin:8px 2px 0}
+.hint b{color:var(--ink-2)}
+
+/* notice */
+.notice{background:var(--warn-soft);border:1px solid #ffd8b0;border-left:3px solid var(--warn);
+  border-radius:8px;padding:12px 16px;font-size:13.5px;color:#7a4b00;margin-bottom:16px}
+.notice b{color:#5c3700}
+
+/* section head */
+.sec{margin:26px 0 14px}
+.sec .lbl{font-size:16px;font-weight:700;color:var(--brand);letter-spacing:.4px}
+.sec .en-lbl{font-style:italic;color:var(--ink-3);font-size:13px;margin-top:2px}
+.dir{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 20px;margin-bottom:14px;box-shadow:var(--shadow)}
+.dir h2{font-size:15px;margin:0 0 6px;color:var(--ink)}
+.dir .m{color:var(--ink-2);font-size:14px;margin:0 0 8px}
+.dir .en{font-style:italic;color:var(--ink-3);font-size:13px;margin:0;white-space:pre-line}
+
+/* passage */
+.psg{background:#fbfcfe;border:1px solid #dbe4f5;border-left:3px solid var(--brand);
+  border-radius:8px;padding:16px 20px;margin:0 0 16px}
+.psg h3{margin:0 0 8px;font-size:14.5px;color:var(--brand)}
+.psg p{margin:0 0 8px;font-size:14.5px;line-height:1.85;color:var(--ink-2);white-space:pre-line}
+.psg p:last-child{margin-bottom:0}
+
+/* question */
+.q{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px 20px 16px;margin-bottom:12px;box-shadow:var(--shadow);transition:.18s}
+.q:hover{border-color:#cfd6e4}
+.q.correct{border-color:var(--ok);box-shadow:0 0 0 1px var(--ok-soft)}
+.q.wrong{border-color:var(--bad);box-shadow:0 0 0 1px var(--bad-soft)}
+.q-head{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+.num{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--brand-soft);
+  color:var(--brand);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+.q.correct .num{background:var(--ok-soft);color:var(--ok)}
+.q.wrong .num{background:var(--bad-soft);color:var(--bad)}
+.stem{flex:1;font-size:15.5px;line-height:1.8;white-space:pre-wrap}
+.star{color:var(--warn);font-size:13px;margin-left:4px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
+.opt{display:flex;align-items:flex-start;gap:9px;padding:8px 11px;border:1px solid transparent;
+  border-radius:8px;cursor:pointer;transition:.13s;background:#fbfbfc}
+.opt:hover{background:var(--brand-soft)}
+.opt .lt{flex:0 0 auto;font-weight:700;color:var(--ink-3);width:16px}
+.opt .tx{flex:1}
+.opt.sel{background:var(--brand-soft);border-color:#bcd3f7}
+.opt.sel .lt{color:var(--brand)}
+.opt.right{background:var(--ok-soft);border-color:#a5e2c8}
+.opt.right .lt{color:var(--ok)}
+.opt.picked-wrong{background:var(--bad-soft);border-color:#f3b7bd}
+.opt.picked-wrong .lt{color:var(--bad)}
+
+/* answer panel */
+.ans{display:none;margin-top:14px;border-top:1px dashed var(--line-2);padding-top:13px;font-size:14px}
+.q.show .ans{display:block}
+.ans-row{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;margin-bottom:6px}
+.badge{display:inline-block;padding:2px 11px;border-radius:20px;font-size:13px;font-weight:700}
+.badge.ok{background:var(--ok-soft);color:var(--ok);border:1px solid #b3e6d1}
+.kp{display:inline-block;background:#f2f3f5;color:var(--ink-2);border:1px solid var(--line-2);
+  border-radius:5px;padding:1px 9px;font-size:12.5px}
+.ans p{margin:5px 0;color:var(--ink-2)}
+.ans .tr{color:var(--ink-3);font-size:13.5px}
+.ans .lab{color:var(--ink);font-weight:600}
+
+/* editable */
+[contenteditable="true"]{outline:none;border-radius:4px;transition:.15s;cursor:text}
+[contenteditable="true"]:hover{box-shadow:0 0 0 1px var(--line-2)}
+[contenteditable="true"]:focus{box-shadow:0 0 0 2px #bcd3f7;background:#fcfdff}
+.edit-on .opt{border-color:var(--line-2)}
+.badge-edit{margin-left:auto;font-size:11.5px;color:var(--ink-3);border:1px solid var(--line-2);
+  border-radius:5px;padding:1px 7px;background:#fff}
+
+footer{text-align:center;color:var(--ink-3);font-size:12.5px;margin-top:26px}
+
+@media print{
+  body{background:#fff}
+  .toolbar,.notice,.hint,footer{display:none!important}
+  .wrap{max-width:none;padding:0}
+  .sec,.dir,.psg,.q,.hero{box-shadow:none;break-inside:avoid;page-break-inside:avoid}
+  .q{margin-bottom:8px;padding:12px 14px}
+  .opt{background:#fff!important;border-color:transparent!important}
+  .opt.right{background:#e6f7f0!important;border-color:#a5e2c8!important}
+  .opt.picked-wrong{background:#fdecee!important;border-color:#f3b7bd!important}
+  .ans{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>英语练习题（一）</h1>
+    <div class="meta">
+      <span>姓名：<b data-edit contenteditable="false" spellcheck="false">&nbsp;</b></span>
+      <span>准考证号：<b data-edit contenteditable="false" spellcheck="false">&nbsp;</b></span>
+      <span>考场号：<b data-edit contenteditable="false" spellcheck="false">&nbsp;</b></span>
+      <span>座位号：<b data-edit contenteditable="false" spellcheck="false">&nbsp;</b></span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="tools">
+      <button id="btnCheck" class="primary">检查答案</button>
+      <button id="btnShowAll">显示全部解析</button>
+      <button id="btnHideAll" class="ghost">隐藏全部解析</button>
+      <button id="btnReset">清除作答</button>
+      <button id="btnEdit">编辑模式</button>
+      <button id="btnPrint">打印 / 导出 PDF</button>
+      <span class="spacer"></span>
+      <span class="score">已答 <b id="cntDone">0</b> / <b id="cntAll">0</b>　正确 <b id="cntRight">0</b></span>
+    </div>
+  </div>
+
+  <div class="notice">
+    <b>说明：</b>本页由 WPS 在线文档原卷解析而成，共收录 <b>第一部分 词汇与语法（1–50 题）</b> 与
+    <b>第二部分 阅读理解（51–70 题）</b> 共 70 题。按你的要求，<b>第三部分 写作（30 分）未收录</b>。
+    页面所有题目文本可直接修改（点「编辑模式」），作答与改动会自动保存在本机浏览器中。
+  </div>
+
+  <p class="hint"><b>用法：</b>① 直接点选项作答 → ② 点「检查答案」自动判分并显示解析 →
+  ③ 点「编辑模式」可改题干/选项/解析文本 → ④ 「打印 / 导出 PDF」时，未展开解析＝学生卷，展开后＝含答案解析的教师版。</p>
+
+  <main id="list"></main>
+
+  <footer>英语练习题（一）· 可编辑版　|　共 70 题（词汇与语法 50 + 阅读理解 20）　|　随附正确答案与中文解析</footer>
+</div>
+
+<script>
+const DATA = [{"kind": "sec", "id": "part1", "label": "第一部分　词汇与语法（共 50 分）", "en": "Part I　Vocabulary and Structure", "title": "一、单项选择", "meta": "本大题共 50 小题，每小题 1 分，共 50 分。", "en_dir": "Directions: There are 50 incomplete sentences in this section. For each sentence there are four choices marked A, B, C and D. Choose the ONE answer that best completes the sentence. Mark your answer on the ANSWER SHEET with a single line through the center of the letter that indicates your choice."}, {"kind": "q", "n": 1, "stem": "The question is ________ me and I have no idea of it.", "opts": ["beyond", "over", "beside", "above"], "ans": 0, "answer": "A", "kp": "固定搭配", "exp": "beyond sb. 意为“为某人所不能理解，超出某人的能力范围”。over / beside / above 均无此搭配，故选 A。", "tr": "我不懂这个题目，一点儿也不知道。", "star": 1}, {"kind": "q", "n": 2, "stem": "The output of our company this month is _______ that of last month.", "opts": ["twice as much as", "twice as much", "twice many as", "twice as many as"], "ans": 0, "answer": "A", "kp": "倍数的表达法", "exp": "倍数表达法之一：倍数 + as + 形容词/副词原级 + as。又因主语 output 是不可数名词，所以用 much 而不用 many，故选 A。", "tr": "本月我们公司的产量是上月的两倍。", "star": 0}, {"kind": "q", "n": 3, "stem": "Hardly had I got home ________ the telephone rang.", "opts": ["then", "when", "as", "than"], "ans": 1, "answer": "B", "kp": "固定搭配", "exp": "hardly…when… 是固定关联词组，意为“刚一……就……”。类似结构还有 scarcely…when…、no sooner…than…，故选 B。", "tr": "我刚一到家，电话铃就响了。", "star": 1}, {"kind": "q", "n": 4, "stem": "By the time you get back, I ________ all the work.", "opts": ["would finish", "will have finished", "has finished", "had finished"], "ans": 1, "answer": "B", "kp": "动词的时态", "exp": "by the time 引导的时间状语从句常与完成时态连用。“by the time you get back”表示将来的时间，因此主句用将来完成时 will have done，故选 B。", "tr": "等你回来的时候，我就已经完成所有的工作了。", "star": 0}, {"kind": "q", "n": 5, "stem": "It's required that the students ________ the term paper tomorrow.", "opts": ["finished", "finish", "will finish", "may finish"], "ans": 1, "answer": "B", "kp": "虚拟语气", "exp": "表达“命令、要求、建议”等意义的主语从句须用虚拟语气，结构为 should + 动词原形，should 可省略，故填 (should) finish，选 B。类似词：essential, urgent, natural, important, desirable, necessary, ordered。", "tr": "要求学生们明天完成学期论文。", "star": 0}, {"kind": "q", "n": 6, "stem": "_______ the final examination is over, we can go outside for a picnic.", "opts": ["Even though", "Now that", "For", "With"], "ans": 1, "answer": "B", "kp": "状语从句", "exp": "even though 引导让步状语从句；now that 引导原因状语从句，表“既然”。根据句意“既然期末考试已经结束，我们可以外出野餐了”，故选 B。", "tr": "既然期末考试已经结束，那么我们可以外出野餐了。", "star": 0}, {"kind": "q", "n": 7, "stem": "Tom was the only one of the students who ________ named Outstanding Student.", "opts": ["is", "are", "was", "were"], "ans": 2, "answer": "C", "kp": "主谓一致", "exp": "the only one of + 名词后面的定语从句谓语动词用单数（one of + 名词之后则用复数）。又因主句时态为一般过去时，故选 C (was)。", "tr": "汤姆是这些学生中唯一一名被授予优秀学生称号的人。", "star": 0}, {"kind": "q", "n": 8, "stem": "There is something wrong with my car. It will take me one hour to have it ______.", "opts": ["fix", "fixing", "to fix", "fixed"], "ans": 3, "answer": "D", "kp": "非谓语动词", "exp": "本题考查 have 后接过去分词作宾补表被动的用法，have it fixed 意为“把它修好”。类似动词还有 keep, find, leave, make, get 等，故选 D。", "tr": "我的车出问题了，得花费我一小时时间找人修理。", "star": 0}, {"kind": "q", "n": 9, "stem": "Seldom ________ his wife punish her children for speaking out their own ideas freely.", "opts": ["I saw", "I have seen", "have I seen", "do I see"], "ans": 2, "answer": "C", "kp": "倒装结构及时态", "exp": "具有否定意义或否定形式的词（never, little, scarcely, hardly, seldom 等）位于句首时，谓语用部分倒装。且“很少看到……”含有到目前为止的含义，用现在完成时，故选 C。", "tr": "我很少看到他妻子因为孩子自由地说出自己的想法而惩罚他们。", "star": 0}, {"kind": "q", "n": 10, "stem": "It's high time the government _________ some measures to raise people's awareness of environmental protection.", "opts": ["will take", "take", "took", "takes"], "ans": 2, "answer": "C", "kp": "虚拟语气", "exp": "It's (high/about) time… 后的从句谓语动词用过去式，意为“是该做某事的时候了（现在做已有些晚）”，故选 C。", "tr": "现在是政府采取措施提高人们环保意识的时候了。", "star": 1}, {"kind": "q", "n": 11, "stem": "All students are eager to know ________ they will pass the exam or not.", "opts": ["if", "that", "whether", "why"], "ans": 2, "answer": "C", "kp": "连词辨析", "exp": "if 和 whether 都有“是否”之意，但只有 whether 能与 or not 连用，that / why 不合句意，故选 C。", "tr": "所有学生都十分渴望知道自己能否通过这次考试。", "star": 0}, {"kind": "q", "n": 12, "stem": "When the couple _______ here, they ________ to the park.", "opts": ["will come; will go", "come; go", "will come; go", "come; will go"], "ans": 3, "answer": "D", "kp": "动词时态", "exp": "主句表示将来意义时，时间状语从句用一般现在时代替将来时（“主将从现”）。从句用 come，主句用 will go，故选 D。", "tr": "每当这对夫妻来到这儿时，他们都会去公园。", "star": 0}, {"kind": "q", "n": 13, "stem": "—I cannot find Tom anywhere.\n—He _________ have been off long. I heard him make a call just now.", "opts": ["shouldn't", "can't", "mustn't", "needn't"], "ans": 1, "answer": "B", "kp": "情态动词表示推测", "exp": "语境是把握很大的否定推测：刚才还听见他打电话了，所以他不可能走远，用 can't have done。shouldn't have done 表“本不应该做（却做了）”；needn't have done 表“本没必要做（却做了）”，故选 B。", "tr": "——我在哪儿都找不到汤姆。——他一定没走多远，我刚才还听见他打电话了呢。", "star": 1}, {"kind": "q", "n": 14, "stem": "No matter who he is, young or old, people's state of mind tends to keep _______ with the rapid change of society.", "opts": ["contact", "progress", "touch", "pace"], "ans": 3, "answer": "D", "kp": "动词短语辨析", "exp": "keep pace with 意为“与……同步、跟上”；keep in contact / touch with 意为“与……保持联系”；progress 不能与 keep 构成此搭配。故选 D。", "tr": "无论老少，人们的思想都会跟上社会的快速变化。", "star": 0}, {"kind": "q", "n": 15, "stem": "To tell you the truth, it's very hard for us to help them get rid of Internet addiction. But we _________ on this problem trying to improve the situation.", "opts": ["worked", "had worked", "are working", "had been working"], "ans": 2, "answer": "C", "kp": "动词时态", "exp": "语境强调“我们目前正在努力解决这个问题”，动作正在进行，用现在进行时，故选 C。", "tr": "说实话，帮助他们戒掉网瘾很难，但我们正在努力改善这一状况。", "star": 0}, {"kind": "q", "n": 16, "stem": "There was an earthquake happened, _______ 100 people and with more than 300 _______.", "opts": ["killed; injured", "killing; injured", "killed; injuring", "killing; injuring"], "ans": 1, "answer": "B", "kp": "非谓语动词", "exp": "第一空用现在分词 killing 作结果状语，表主动；第二空用过去分词 injured 修饰“300 (people)”，意为“受伤的”，表被动完成，故选 B。", "tr": "最近发生了一次地震，造成 100 人死亡，300 多人受伤。", "star": 0}, {"kind": "q", "n": 17, "stem": "50 miles southwest of the country ________ the famous beautiful mountain.", "opts": ["laying", "lie", "lies", "lays"], "ans": 2, "answer": "C", "kp": "倒装结构及主谓一致", "exp": "地点状语置于句首时主谓全部倒装，主语是 the famous beautiful mountain，为单数，故谓语用 lies（lie 表“位于”），选 C。", "tr": "这个国家西南部 50 英里的地方坐落着一座美丽的高山。", "star": 0}, {"kind": "q", "n": 18, "stem": "Everyone has periods in their lives ________ everything seems so hard.", "opts": ["when", "where", "which", "that"], "ans": 0, "answer": "A", "kp": "定语从句", "exp": "先行词 periods 指一段时期，关系词在从句中作时间状语，故用 when；in their lives 为插入语，故选 A。", "tr": "每个人的生命里都有一段什么事情都看似十分艰难的时期。", "star": 0}, {"kind": "q", "n": 19, "stem": "Miss Liu doesn't mind _______ your homework as long as it is done by yourself.", "opts": ["you to delay handing in", "your delaying handing in", "your delaying to hand in", "you delay to hand in"], "ans": 1, "answer": "B", "kp": "动名词用法", "exp": "mind 和 delay 后都只能接动名词（v.-ing），故两层都要用 -ing 形式，选 B。", "tr": "只要作业是你自己做的，刘老师并不介意你晚些交上来。", "star": 1}, {"kind": "q", "n": 20, "stem": "By no means _______ ready to quit her study.", "opts": ["will she", "she will", "she is", "is she"], "ans": 3, "answer": "D", "kp": "倒装结构", "exp": "否定含义的短语 by no means 置于句首，句子须部分倒装，排除 B、C；be ready to do 为固定搭配，A 项缺谓语，故选 D。", "tr": "她决不打算辍学。", "star": 0}, {"kind": "q", "n": 21, "stem": "We'll never forget ______ in New York last year.", "opts": ["us to meet a few friends", "our meeting a few friends", "a few friends to meet", "a few friends meeting"], "ans": 1, "answer": "B", "kp": "非谓语动词", "exp": "forget doing sth. 表“忘记做过某事”（已发生），forget to do sth. 表“忘记要做某事”（未做）。“去年那次会面”已发生，故选 B。", "tr": "我们永远不会忘记去年那次在纽约与几个朋友的会面。", "star": 0}, {"kind": "q", "n": 22, "stem": "Is there any hope of ______ the gold medal?", "opts": ["John to win", "John win", "winning John", "John's winning"], "ans": 3, "answer": "D", "kp": "动名词的复合结构", "exp": "介词 of 后须接动名词；当动名词的逻辑主语不是句子主语时，用“名词所有格 / 形容词性物主代词 + 动名词”，故选 D。", "tr": "约翰有希望赢得金牌吗？", "star": 0}, {"kind": "q", "n": 23, "stem": "There is a man at the reception desk who seems very angry and I think he means _______ trouble.", "opts": ["making", "to make", "to have made", "having made"], "ans": 1, "answer": "B", "kp": "非谓语动词", "exp": "mean to do 意为“打算做某事”；mean doing 意为“意味着……”。据句意“我想他是想找麻烦”，故选 B。", "tr": "接待处有个男人看起来非常生气，我想他要找麻烦。", "star": 0}, {"kind": "q", "n": 24, "stem": "_______ her surprise, Miss Wang found nobody in the classroom.", "opts": ["At", "To", "For", "With"], "ans": 1, "answer": "B", "kp": "固定搭配", "exp": "to one's surprise 意为“令某人感到惊讶的是”，为固定搭配，故选 B。", "tr": "令王老师惊讶的是，她发现教室里一个人也没有。", "star": 0}, {"kind": "q", "n": 25, "stem": "Anderson is one of those _______ appear friendly but in fact are hard to deal with.", "opts": ["who", "they", "that", "which"], "ans": 0, "answer": "A", "kp": "定语从句", "exp": "先行词 those 指人，关系代词在从句中作主语，用 who。that 虽可指人，但先行词为 those 时习惯用 who，故选 A。", "tr": "安德森是那种看上去友好、实际上很难打交道的人之一。", "star": 0}, {"kind": "q", "n": 26, "stem": "I wish they _______ in their ball game.", "opts": ["will be succeeded", "succeeded", "would be successful", "were success"], "ans": 1, "answer": "B", "kp": "虚拟语气", "exp": "wish 后的宾语从句要用虚拟语气：对现在的假设用过去式。succeed 为不及物动词，故选 B。", "tr": "我希望他们的球赛能获胜。", "star": 1}, {"kind": "q", "n": 27, "stem": "It is difficult for her to make the final decision now, _______ she is in a delicate (微妙的) situation.", "opts": ["if", "unless", "until", "since"], "ans": 3, "answer": "D", "kp": "状语从句", "exp": "四个选项中只有 since 可引导原因状语从句，表示“由于、因为”，故选 D。", "tr": "由于她正处于微妙的境地，现在很难做出最后的决定。", "star": 0}, {"kind": "q", "n": 28, "stem": "In old China women used _______.", "opts": ["to look down", "to look down upon", "to be looked down", "to be looked down upon"], "ans": 3, "answer": "D", "kp": "被动语态", "exp": "be used to do / used to do 表“过去常常做某事”；women 与 look down upon（瞧不起）之间是被动关系，故用被动式，选 D。", "tr": "在旧中国妇女常常被人瞧不起。", "star": 0}, {"kind": "q", "n": 29, "stem": "I suppose you know everything about that event, ________?", "opts": ["don't you", "do I", "do you", "don't I"], "ans": 0, "answer": "A", "kp": "反意疑问句", "exp": "主句为 I suppose / think / believe 等时，反意疑问部分应与宾语从句保持一致。从句为肯定句、主语 you、谓语 know，故选 A。", "tr": "我猜你对那件事了解得很清楚，不是吗？", "star": 0}, {"kind": "q", "n": 30, "stem": "Helen is fond of light music, _______ her brother is keen on rock and roll.", "opts": ["when", "and", "while", "for"], "ans": 2, "answer": "C", "kp": "连词的用法", "exp": "while 可表示前后两者对比，意为“而……”，符合句意，故选 C。", "tr": "海伦喜欢轻音乐，而她弟弟却热衷于摇滚乐。", "star": 0}, {"kind": "q", "n": 31, "stem": "_________, Gloria started looking for work.", "opts": ["All the money being spent", "All the money having been spent", "All the money spend", "Spending all the money"], "ans": 1, "answer": "B", "kp": "独立主格结构", "exp": "分词带上自己的逻辑主语 All the money，构成独立主格；且“钱花光”发生在“找工作”之前，须用完成式，故选 B。", "tr": "钱全部花光之后，格洛丽娅开始找工作。", "star": 1}, {"kind": "q", "n": 32, "stem": "It will take you one hour and fifty minutes _________ the top of Mount Tai.", "opts": ["reaching", "to reach", "being reached", "having been reached"], "ans": 1, "answer": "B", "kp": "非谓语动词", "exp": "It takes sb. + 时间 + to do sth. 表示“做某事花费某人多长时间”，后接不定式，故选 B。", "tr": "你得花 1 小时 50 分钟才能爬到泰山顶上。", "star": 0}, {"kind": "q", "n": 33, "stem": "_________ the news, Ida changed her plans.", "opts": ["In hearing", "To hear", "Of hearing", "On hearing"], "ans": 3, "answer": "D", "kp": "非谓语动词", "exp": "on (upon) doing sth. 表示“一……就……”，故选 D。", "tr": "一听到那消息，艾达便改变了计划。", "star": 0}, {"kind": "q", "n": 34, "stem": "Tony is talking about the friends and the food _________ interest him.", "opts": ["which", "who", "that", "as"], "ans": 2, "answer": "C", "kp": "定语从句", "exp": "当先行词同时包含人与物（the friends and the food）时，关系代词只能用 that，故选 C。", "tr": "托尼正在谈论让他感兴趣的朋友和食物。", "star": 0}, {"kind": "q", "n": 35, "stem": "I didn't understand at first why he couldn't pass the test, no matter _________ hard he had tried.", "opts": ["when", "where", "what", "how"], "ans": 3, "answer": "D", "kp": "状语从句", "exp": "how 修饰副词 hard，no matter how 引导让步状语从句，意为“无论怎样”，故选 D。", "tr": "起初我不明白为什么无论他怎么努力都考不及格。", "star": 0}, {"kind": "q", "n": 36, "stem": "In the ________ half of the 17th century those cities became even more prosperous (繁荣的).", "opts": ["latter", "latest", "later", "late"], "ans": 0, "answer": "A", "kp": "词义辨析", "exp": "latter 意为“后半的、后者”，the latter half of… 意为“……的后半期”；latest 最新的；later 更晚的；late 迟的。故选 A。", "tr": "在 17 世纪的后半叶，那些城市变得更加繁华。", "star": 0}, {"kind": "q", "n": 37, "stem": "________ coming here, I haven't seen a single person.", "opts": ["Since", "From", "By", "At"], "ans": 0, "answer": "A", "kp": "介词辨析 + 时态呼应", "exp": "since 可作介词，表示“自从……以来”，与现在完成时连用。from / by / at 均无此用法且不与时态呼应，故选 A。", "tr": "自从来到这里，我一个人都没见过。", "star": 0}, {"kind": "q", "n": 38, "stem": "Between 1975 and 1996, the number of overseas visitors expanded _________ 27% on average each year.", "opts": ["in", "by", "for", "to"], "ans": 1, "answer": "B", "kp": "介词辨析", "exp": "表示“增长了……”用 by + 幅度；expand to 表示“增长到……”。此处 27% 是增长幅度，故选 B。", "tr": "1975 年至 1996 年间，海外游客数量平均每年增长 27%。", "star": 0}, {"kind": "q", "n": 39, "stem": "So little ________ about chemistry that the lecture was completely beyond me.", "opts": ["did I know", "I know", "do I know", "I knew"], "ans": 0, "answer": "A", "kp": "倒装结构", "exp": "“so + 形容词/副词”位于句首时句子须部分倒装，且由从句 was 可知讲的是过去的事，用一般过去时助动词 did，故选 A。", "tr": "我对化学所知甚少，以至于讲座的内容我完全听不懂。", "star": 0}, {"kind": "q", "n": 40, "stem": "Had I known the result, I _________ you to tell me.", "opts": ["would not ask", "would not have asked", "had not asked", "have not asked"], "ans": 1, "answer": "B", "kp": "虚拟语气", "exp": "Had I known = If I had known，是与过去事实相反的虚拟条件句，主句须用 would have done，故选 B。", "tr": "如果早知道结果，我就不会请你告诉我了。", "star": 1}, {"kind": "q", "n": 41, "stem": "Although he felt sick, he insisted _________ going there together with us.", "opts": ["to", "on", "at", "for"], "ans": 1, "answer": "B", "kp": "固定搭配", "exp": "insist on doing sth. 意为“坚持做某事”，为固定搭配，故选 B。", "tr": "尽管他觉得不舒服，仍坚持和我们一起去那儿。", "star": 0}, {"kind": "q", "n": 42, "stem": "I'll ask Mr. Smith to ring you up _________ he comes back to the office.", "opts": ["when", "where", "because", "although"], "ans": 0, "answer": "A", "kp": "状语从句", "exp": "when 引导时间状语从句，意为“当……时”；主句为将来时，从句用一般现在时，故选 A。", "tr": "史密斯先生回到办公室时，我就请他给你打电话。", "star": 0}, {"kind": "q", "n": 43, "stem": "They regard _________ as their duty to provide the best service for their customers.", "opts": ["this", "what", "it", "that"], "ans": 2, "answer": "C", "kp": "形式宾语", "exp": "regard 的真正宾语是后面的不定式短语，须用 it 作形式宾语，构成 regard it as one's duty to do sth.，故选 C。", "tr": "他们把为顾客提供最好的服务视为自己的职责。", "star": 0}, {"kind": "q", "n": 44, "stem": "Not until the day before yesterday _________ to give a speech at the meeting.", "opts": ["he agreed", "does he agree", "he agrees", "did he agree"], "ans": 3, "answer": "D", "kp": "倒装结构", "exp": "not until 短语置于句首时，主句须部分倒装；时间状语 the day before yesterday 表明用过去时，故选 D。", "tr": "直到前天他才同意在会上发表演讲。", "star": 0}, {"kind": "q", "n": 45, "stem": "_________ up at the clock on the wall, the secretary found it was already midnight.", "opts": ["Looking", "Look", "To look", "Looked"], "ans": 0, "answer": "A", "kp": "非谓语动词", "exp": "look 的逻辑主语是 the secretary，两者为主动关系，且动作与主句谓语同时发生，用现在分词作状语，故选 A。", "tr": "秘书抬头看了看墙上的钟，发现已经是午夜了。", "star": 0}, {"kind": "q", "n": 46, "stem": "The first textbook _________ for teaching English as a foreign language came out in the 16th century.", "opts": ["writing", "written", "to write", "to be written"], "ans": 1, "answer": "B", "kp": "非谓语动词", "exp": "textbook 与 write 之间是被动关系且动作已完成，用过去分词 written 作后置定语，故选 B。", "tr": "第一本把英语作为外语来教的教材于 16 世纪问世。", "star": 0}, {"kind": "q", "n": 47, "stem": "Young _________ he is, he is an excellent salesman.", "opts": ["that", "who", "as", "which"], "ans": 2, "answer": "C", "kp": "让步状语从句的倒装", "exp": "as 引导让步状语从句时须把表语提到句首（名词/形容词 + as + 主语 + 谓语），意为“尽管”，故选 C。", "tr": "尽管他很年轻，却是一名出色的销售员。", "star": 0}, {"kind": "q", "n": 48, "stem": "I don't doubt _________ the stock market (股市) will recover from the economic crisis.", "opts": ["if", "what", "that", "which"], "ans": 2, "answer": "C", "kp": "宾语从句连接词", "exp": "doubt 用于否定句或疑问句时，后接 that 引导的宾语从句；用于肯定句时才接 whether / if，故选 C。", "tr": "我毫不怀疑股市会从经济危机中复苏。", "star": 0}, {"kind": "q", "n": 49, "stem": "In our company, great changes _________ since the new manager came.", "opts": ["took place", "take place", "will have taken place", "have taken place"], "ans": 3, "answer": "D", "kp": "动词时态", "exp": "since 引导的时间状语从句表示“自从……以来”，主句须用现在完成时；take place 无被动，故选 D。", "tr": "自从新经理来了以后，我们公司发生了巨大的变化。", "star": 0}, {"kind": "q", "n": 50, "stem": "News came from the sales manager _________ the new product had been selling well in the local market for three months.", "opts": ["whose", "what", "which", "that"], "ans": 3, "answer": "D", "kp": "同位语从句", "exp": "从句内容是对抽象名词 news 的具体说明，是同位语从句，用 that 引导；that 在从句中不充当成分也不省略，故选 D。", "tr": "销售经理传来消息：这款新产品在当地市场已畅销三个月了。", "star": 0}, {"kind": "sec", "id": "part2a", "label": "第二部分　阅读理解（共 20 分）", "en": "Part II　Reading Comprehension", "title": "二、阅读判断", "meta": "本大题共 10 小题，每小题 1 分，共 10 分。", "en_dir": "Section A: True or False（共 10 题，每小题 1 分，满分 10 分）\nDirections: In this section, you will read a passage. After reading, there are 10 statements. You need to indicate whether each of the statements is true or false. For each of the statement, choose A for True and B for False. Mark your answer on the ANSWER SHEET with a single line through the center of the letter that indicates your choice."}, {"kind": "psg", "name": "Benefits of Play", "paras": ["Play serves children as a bridge to social situations and gives them an opportunity to learn the rules for getting along with others. Children can make discoveries, reason, and think alone, but they need to communicate with others whose thoughts are about the same as their own — other children. The imaginary world of the child needs other children who have similar experiences, abilities, and ways of expression.", "Most adults cannot reach the level of understanding and love for a child's make-believe (假扮游戏) situations. Which adult can fully play at being a man-eating tiger without introducing adult concepts into the game?", "Benefits\nChildren playing together learn from one another that their experiences, feelings, and ideas are similar. This encourages the self-confidence of each child and leads to a group feeling. Group play also gives each child an opportunity to experiment with being a leader as well as a follower, a situation that rarely occurs outside of play. The fantasy (虚幻的) world of the children helps them to understand themselves and the world around them, but that understanding is at their own, not an adult's, level.", "Children gain emotional satisfaction through play. During play, children can find release from tension; they relax and feel satisfied with themselves. They can act out emotional responses, both positive and negative, in their games. They can be sympathetic or aggressive, and show love, hate, or jealousy (嫉妒). Under the protection of play, they can expose emotions with a feeling of safety, which helps them live through defeats, frustrations (沮丧), and pain.", "Play Equipment\nGood play equipment is essential for children. It should be chosen with the child's interests and abilities in mind. Toys, books, records, games, and other objects for play should show respect for the child's world. Generally, a young child's playthings should be as free from details as possible. Some adults are interested in the structure and the realistic detail of toys; many children are not.", "A good plaything makes children do things for themselves. They soon become bored with a toy that can do only one thing. Play equipment should encourage children to explore and to create, or it should offer them opportunities for dramatic play (戏剧化的假扮游戏). Fairly large toys are important for young children because their body has not developed well enough for them to handle small things easily.", "Play equipment that pleases children can be very simple and inexpensive. Sand, wood, and mud delight most young children. Paint, crayons (彩色笔), and blank paper (空白纸) give children an opportunity to be creative.", "Playhouse materials including dolls, and dress-up clothes, are excellent for make-believe. Small wheeled toys, such as trucks and cars, and large ones, such as wagons and tricycles, offer hours of enjoyment. Swings (秋千), slides (滑梯), and other kinds of playground equipment are excellent for outdoor activity. Books, records, and games, if carefully chosen, appeal to (吸引) most children.", "Place for Playing\nA place in which children can play with a minimum number of limits is important. Outdoors, a protected place where they can make noise, race about, and find adventure materials is ideal. Indoors, children should have a special playroom if possible. They need a place to keep their equipment and to be messy (乱作一团的) if they wish."]}, {"kind": "q", "n": 51, "stem": "The imaginary world of the children needs adults who have much richer experiences.", "opts": ["True", "False"], "ans": 1, "answer": "B", "kp": "细节判断题", "exp": "原文第一段末句说：The imaginary world of the child needs other children who have similar experiences, abilities, and ways of expression.（需要的是有相似经历的**其他孩子**）。题干把 other children 换成了 adults with much richer experiences，与原文相反，故选 B。", "tr": "儿童想象中的世界需要有更丰富经历的成年人。", "star": 0}, {"kind": "q", "n": 52, "stem": "While playing with children, adults should play the game fully without thinking about their work.", "opts": ["True", "False"], "ans": 1, "answer": "B", "kp": "推理判断题", "exp": "原文第二段只说明大多数成年人无法对孩子假扮游戏的情境达到同等理解与热爱的程度，并未提出“成人应完全抛开工作投入游戏”的要求。题干内容属无中生有，故选 B。", "tr": "和孩子一起玩时，成年人应该全身心投入游戏，不去想工作。", "star": 0}, {"kind": "q", "n": 53, "stem": "While playing together, children can develop a group feeling.", "opts": ["True", "False"], "ans": 0, "answer": "A", "kp": "细节判断题", "exp": "原文第三段：This encourages the self-confidence of each child and leads to a group feeling.（这会增强每个孩子的自信，并带来集体感。）与题干完全一致，故选 A。", "tr": "在一起玩耍的过程中，孩子们可以培养集体感。", "star": 0}, {"kind": "q", "n": 54, "stem": "The fantasy world of children helps them understand adults' world as well as their own world.", "opts": ["True", "False"], "ans": 1, "answer": "B", "kp": "细节判断题", "exp": "原文：The fantasy world of the children helps them to understand themselves and the world around them, but that understanding is at their own, not an adult's, level. 说明这种理解处在孩子自己的层面，**而非成人层面**。题干扩大了范围，故选 B。", "tr": "儿童的幻想世界既帮助他们认识自己的世界，也帮助他们认识成人的世界。", "star": 0}, {"kind": "q", "n": 55, "stem": "In games, children express positive emotional responses only and therefore develop positive characteristics.", "opts": ["True", "False"], "ans": 1, "answer": "B", "kp": "细节判断题", "exp": "原文明确说 They can act out emotional responses, **both positive and negative**, in their games.（积极的与消极的都有）。题干的 only 与原文矛盾，故选 B。", "tr": "在游戏中，孩子只表达积极的情绪反应，因此形成了积极的性格特征。", "star": 0}, {"kind": "q", "n": 56, "stem": "The freedom to symbolize experiences through play helps children live through defeats and pain.", "opts": ["True", "False"], "ans": 0, "answer": "A", "kp": "细节判断题", "exp": "原文第四段末：Under the protection of play, they can expose emotions with a feeling of safety, which helps them live through defeats, frustrations, and pain. 与题干含义一致，故选 A。", "tr": "通过游戏象征性地表达经历的自由，帮助孩子们挺过失败与痛苦。", "star": 0}, {"kind": "q", "n": 57, "stem": "Play equipment should encourage children to explore and create and offer them opportunities for dramatic play.", "opts": ["True", "False"], "ans": 0, "answer": "A", "kp": "细节判断题", "exp": "原文第六段：Play equipment should encourage children to explore and to create, or it should offer them opportunities for dramatic play. 与题干完全对应，故选 A。", "tr": "游戏器材应当鼓励孩子去探索和创造，并为他们提供戏剧化扮演游戏的机会。", "star": 0}, {"kind": "q", "n": 58, "stem": "When choosing play equipment for children, parents should consider children's interests and abilities.", "opts": ["True", "False"], "ans": 0, "answer": "A", "kp": "细节判断题", "exp": "原文第五段：It should be chosen with the child's interests and abilities in mind. 与题干一致，故选 A。", "tr": "为孩子挑选游戏器材时，父母应当考虑孩子的兴趣和能力。", "star": 0}, {"kind": "q", "n": 59, "stem": "Playhouse materials such as dolls, dress-up clothes, are excellent for make-believe.", "opts": ["True", "False"], "ans": 0, "answer": "A", "kp": "细节判断题", "exp": "原文第八段首句与该表述完全一致：Playhouse materials including dolls, and dress-up clothes, are excellent for make-believe. 故选 A。", "tr": "娃娃、化装服等“过家家”用品非常适合假扮游戏。", "star": 0}, {"kind": "q", "n": 60, "stem": "An ideal playing place for children is one with maximum number of limits.", "opts": ["True", "False"], "ans": 1, "answer": "B", "kp": "细节判断题", "exp": "原文末段：A place in which children can play with a **minimum** number of limits is important. 题干把 minimum（最少）改成了 maximum（最多），意思正好相反，故选 B。", "tr": "理想的儿童游戏场所是限制最多的那种。", "star": 0}, {"kind": "sec", "id": "part2b", "label": "", "en": "", "title": "三、阅读选择", "meta": "本大题共 10 小题，每小题 1 分，共 10 分。", "en_dir": "Section B: Reading Comprehension（共 10 题，每小题 1 分，满分 10 分）\nDirections: There are 2 passages in this part. Each passage is followed by 5 questions or unfinished statements. For each of them there are 4 choices marked A, B, C and D. Choose the best one and mark your answer on the ANSWER SHEET with a single bar through the center of the letter that indicates your choice."}, {"kind": "psg", "name": "Passage 1　An E-book", "paras": ["An e-book (also referred to as an electronic book, e-book) is a digital version of a print book that you download and read. But if you want to read an e-book, you must have an E-book Reader, which is a kind of free software used by your computer. Make sure you have installed the appropriate Reader before you download your e-book from the Internet.", "The software allows you to turn the words on the screen into the size you like. It also helps you turn pages and change your viewing options. E-books are a fun alternative (替代) to regular books. You can download them to any computers and create your own library of hundreds of titles. If you load them onto your portable computer, you can take them with you when you travel. Some e-books are even interactive! Best of all, when you order an e-book, there is no waiting and no shipping charges. The amount of time it takes to download your e-book depends on the speed of your connection and the size of your e-book."]}, {"kind": "q", "n": 61, "stem": "From this passage, we learn that an e-book _________.", "opts": ["can be found in any library", "can be read directly from the Internet", "can be read by anyone who has a computer", "can be read when special software is installed"], "ans": 3, "answer": "D", "kp": "细节理解题", "exp": "第一段说：you must have an E-book Reader, which is a kind of free software used by your computer. 必须先安装专门的阅读软件才能读电子书，故 D 正确。有无电脑本身并不足以阅读（排除 C）；电子书是从网上下载的电子读物，无法在图书馆查阅（排除 A），也不能直接在网上读（排除 B）。", "tr": "从本文中我们得知，电子书_________。", "star": 0}, {"kind": "q", "n": 62, "stem": "The E-book Reader is used for _________.", "opts": ["reading an e-book you've downloaded", "turning a print book into a digital version", "downloading an e-book from the Internet", "copying an e-book onto a portable computer"], "ans": 0, "answer": "A", "kp": "细节理解题", "exp": "首段指出阅读电子书必须用 E-book Reader，后文说明该软件可以调整字号、翻页、更换浏览方式，即它的用途是**阅读**已下载的电子书，故选 A。", "tr": "电子书阅读器的用途是_________。", "star": 0}, {"kind": "q", "n": 63, "stem": "From this passage, we can learn that _________.", "opts": ["you can read an e-book on a laptop when you travel", "you can order an e-book using the E-book Reader", "the e-books ordered have to be shipped to you", "it takes a lot of trouble reading an e-book"], "ans": 0, "answer": "A", "kp": "推理判断题", "exp": "第二段提到把电子书装进 portable computer（便携式计算机，即笔记本电脑）即可随身带着旅行，故 A 正确。订购电子书无需运费、不用等也不会被“托运”（排除 C）；用阅读器订货与文中的“trouble”均无依据。", "tr": "从本文中我们可以得知_________。", "star": 0}, {"kind": "q", "n": 64, "stem": "Which of the following statements is TRUE?", "opts": ["An e-book is ordered with shipping charges.", "The size of the words in an e-book cannot be changed.", "The downloading time is partly decided by the e-book's size.", "There is less fun reading an e-book than a print book."], "ans": 2, "answer": "C", "kp": "是非判断题", "exp": "末句说下载所需时间取决于网速和**电子书的大小**，故 C 正确。原文明确 no shipping charges（排除 A）；软件可以把字变成你喜欢的大小（排除 B）；电子书是 regular books 的有趣替代品（排除 D）。", "tr": "下列哪一项说法是正确的？", "star": 0}, {"kind": "q", "n": 65, "stem": "The passage is mainly about _________.", "opts": ["a better way to download an E-book", "a new kind of book — the E-books", "the new version of E-books", "the fun of reading E-books"], "ans": 1, "answer": "B", "kp": "主旨大意题", "exp": "全文围绕“什么是电子书、如何阅读、它的好处与下载特点”展开，是在介绍一种新型书籍——电子书，故选 B。A、C、D 都只是文中的某一个侧面，不能概括全篇。", "tr": "这篇文章主要讲的是_________。", "star": 0}, {"kind": "psg", "name": "Passage 2　Check-in Requirements", "paras": ["Check-in Requirements", "Passengers and their baggage must be checked in at least 45 minutes before departure for domestic flights and 60 minutes for international flights. Government-issued photo identification is required for all passengers. Passengers traveling across any international boundary (边界) are responsible for obtaining all necessary travel documents. Passengers may be denied boarding if travel documents are not in order. When check-in requirements are not met, a passenger may be separated from his／her bag. Frontier Airlines will gladly hold the bag in the destination baggage service office for pick-up at the passenger's convenience. Passengers must be at the gate 20 minutes before departure for boarding.", "Free Baggage Allowance for Each Ticketed Passenger\nFrontier Airlines, Inc. will accept, per ticketed passenger, two free checked bags not to exceed 62 inches and 50 pounds per piece, one carry-on bag and one personal item (purse, laptop, etc.).\nNOTE: A ticketed passenger may check one carry-on bag if it is within established limitations. All carry-on items must be put under a shared overhead compartment (行李舱).", "Excessive (超重) Baggage Charges\nAn excess charge will be made for each piece of baggage over the free allowance and for each piece of oversized or over-weight baggage."]}, {"kind": "q", "n": 66, "stem": "An international flight passenger should check in at least _________.", "opts": ["20 minutes before departure", "30 minutes before departure", "45 minutes before departure", "60 minutes before departure"], "ans": 3, "answer": "D", "kp": "细节理解题", "exp": "原文：...must be checked in at least 45 minutes before departure for domestic flights and 60 minutes for international flights. 国际航班是 60 分钟，故选 D（20 分钟是登机前到达登机口的时间，45 分钟是国内航班）。", "tr": "国际航班的旅客至少应提前_________办理登机手续。", "star": 0}, {"kind": "q", "n": 67, "stem": "What is required of all domestic and international passengers for check-in?", "opts": ["An invitation letter.", "A company's job offer.", "An official photo identification.", "An official immigration permit."], "ans": 2, "answer": "C", "kp": "细节理解题", "exp": "原文：Government-issued photo identification is required for all passengers. 即政府签发的带照片的身份证件，故选 C。邀请函、公司聘用书、入境许可均未提及。", "tr": "所有国内、国际旅客办理登机手续时必须出示什么？", "star": 0}, {"kind": "q", "n": 68, "stem": "How much baggage is a ticketed passenger allowed free of charge?", "opts": ["One piece.", "Two pieces.", "Three pieces.", "Four pieces."], "ans": 1, "answer": "B", "kp": "细节理解题", "exp": "Free Baggage Allowance 一节明确：per ticketed passenger, two free checked bags...，即每位持票旅客可免费托运两件行李，故选 B。", "tr": "持票旅客可以免费托运多少件行李？", "star": 0}, {"kind": "q", "n": 69, "stem": "What will passengers have to do if their baggage is over the free allowance?", "opts": ["To pay extra money.", "To carry it themselves.", "To ask for special permit.", "To drop the excessive item."], "ans": 0, "answer": "A", "kp": "细节理解题", "exp": "末段：An excess charge will be made for each piece of baggage over the free allowance...，超出免费额度要交超重费，故选 A。", "tr": "如果行李超过免费额度，旅客必须怎么办？", "star": 0}, {"kind": "q", "n": 70, "stem": "This passage is probably taken from _________.", "opts": ["an advertisement of an airline", "a notice for airline passengers", "a schedule of an international flight", "an introduction to an airline company"], "ans": 1, "answer": "B", "kp": "推理判断题", "exp": "全文讲的是办理登机手续的要求、免费行李额度与超重收费标准，是面向旅客的**须知/告示**，故选 B。它既不推销机票（非广告）、也不是航班时刻表或航空公司简介。", "tr": "这篇文章很可能摘自_________。", "star": 0}];
+const STORE_KEY = 'english_practice_full_v1';
+const LETTERS = "ABCD";
+const list = document.getElementById('list');
+let checked = false;
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function renderStem(s){
+  return esc(s).replace(/_{3,}/g, m=>`<span class="blank">${'&nbsp;'.repeat(Math.min(18,m.length))}</span>`);
+}
+
+const QMAP = new Map();   // 全局序号 -> 数据
+
+function build(){
+  let html = '';
+  DATA.forEach((it, i) => {
+    if (it.kind === 'sec'){
+      html += `<section class="sec">`
+        + (it.label ? `<div class="lbl">${esc(it.label)}</div>` : '')
+        + (it.en ? `<div class="en-lbl">${esc(it.en)}</div>` : '')
+        + `</section>`
+        + `<div class="dir"><h2>${esc(it.title)}　<span class="kp">${esc(it.meta)}</span></h2>`
+        + `<p class="en">${esc(it.en_dir)}</p></div>`;
+      return;
+    }
+    if (it.kind === 'psg'){
+      const paras = it.paras.map(p => `<p data-edit contenteditable="false" spellcheck="false">${esc(p)}</p>`).join('');
+      html += `<article class="psg"><h3 data-edit contenteditable="false" spellcheck="false">${esc(it.name)}</h3>${paras}</article>`;
+      return;
+    }
+    const opts = it.opts.map((o, j) =>
+      `<div class="opt" data-o="${j}"><span class="lt">${LETTERS[j]}.</span>`
+      + `<span class="tx" data-edit contenteditable="false" spellcheck="false">${esc(o)}</span></div>`).join('');
+    const idx = QMAP.size;
+    QMAP.set(String(idx), it);
+    html += `<article class="q" data-i="${idx}">
+      <div class="q-head">
+        <div class="num">${it.n}</div>
+        <div class="stem" data-edit contenteditable="false" spellcheck="false">${renderStem(it.stem)}${it.star?'<span class="star">★</span>':''}</div>
+      </div>
+      <div class="opts">${opts}</div>
+      <div class="ans">
+        <div class="ans-row">
+          <span class="badge ok">正确答案 ${LETTERS[it.ans]}</span>
+          <span class="kp">${esc(it.kp)}</span>
+          ${it.star?'<span class="kp" style="background:#fff4e8;color:#a35b00;border-color:#ffd8b0">★ 原卷重点标记</span>':''}
+        </div>
+        <p><span class="lab">解析：</span><span class="exp-t" data-edit contenteditable="false" spellcheck="false">${esc(it.exp)}</span></p>
+        <p class="tr"><span class="lab">译文：</span><span class="tr-t" data-edit contenteditable="false" spellcheck="false">${esc(it.tr)}</span></p>
+      </div>
+    </article>`;
+  });
+  list.innerHTML = html;
+  document.getElementById('cntAll').textContent = QMAP.size;
+}
+
+/* ---------- 编辑模式开关 ---------- */
+let editMode = false;
+function setEditMode(on){
+  editMode = on;
+  document.body.classList.toggle('edit-on', on);
+  document.querySelectorAll('[data-edit]').forEach(el=>el.setAttribute('contenteditable', on?'true':'false'));
+  document.querySelectorAll('.opt').forEach(o=>o.style.cursor = on?'text':'pointer');
+}
+
+/* ---------- 作答 ---------- */
+list.addEventListener('click', e=>{
+  if (editMode) return;
+  const opt = e.target.closest('.opt');
+  if (!opt) return;
+  const q = opt.closest('.q');
+  q.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  opt.classList.add('sel');
+  if (checked) mark(q);
+  updateScore(); save();
+});
+
+function mark(q){
+  const it = QMAP.get(q.dataset.i);
+  const picked = q.querySelector('.opt.sel');
+  q.classList.remove('correct','wrong');
+  q.querySelectorAll('.opt').forEach(o=>o.classList.remove('right','picked-wrong'));
+  if (!picked) return;
+  const ok = +picked.dataset.o === it.ans;
+  q.classList.add(ok?'correct':'wrong');
+  q.querySelector(`.opt[data-o="${it.ans}"]`).classList.add('right');
+  if (!ok) picked.classList.add('picked-wrong');
+}
+
+function updateScore(){
+  const qs = [...list.querySelectorAll('.q')];
+  const done = qs.filter(q=>q.querySelector('.opt.sel')).length;
+  const right = qs.filter(q=>q.classList.contains('correct')).length;
+  document.getElementById('cntDone').textContent = done;
+  document.getElementById('cntRight').textContent = right;
+}
+
+/* ---------- 按钮 ---------- */
+document.getElementById('btnCheck').onclick = ()=>{
+  checked = true;
+  list.querySelectorAll('.q').forEach(q=>{ mark(q); q.classList.add('show'); });
+  updateScore();
+};
+document.getElementById('btnShowAll').onclick = ()=>list.querySelectorAll('.q').forEach(q=>q.classList.add('show'));
+document.getElementById('btnHideAll').onclick = ()=>list.querySelectorAll('.q').forEach(q=>q.classList.remove('show'));
+document.getElementById('btnReset').onclick = ()=>{
+  checked = false;
+  list.querySelectorAll('.q').forEach(q=>{
+    q.classList.remove('correct','wrong','show');
+    q.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel','right','picked-wrong'));
+  });
+  updateScore(); save();
+};
+document.getElementById('btnEdit').onclick = function(){
+  const on = !editMode;
+  setEditMode(on);
+  this.textContent = on ? '退出编辑' : '编辑模式';
+  this.classList.toggle('primary', on);
+  this.insertAdjacentHTML('afterend', '');
+  document.body.classList.toggle('editing', on);
+  if (on){
+    let tag = document.createElement('span');
+    tag.className = 'badge-edit'; tag.textContent = '编辑中：可直接修改题目与解析文本';
+    this.style.marginLeft = '0'; this.after(tag);
+  } else {
+    document.querySelectorAll('.badge-edit').forEach(x=>x.remove());
+  }
+};
+document.getElementById('btnPrint').onclick = ()=>window.print();
+
+/* ---------- 本地保存 ---------- */
+function collect(){
+  const qs = [...list.querySelectorAll('.q')];
+  return {
+    picks: qs.map(q=>{const s=q.querySelector('.opt.sel'); return s?+s.dataset.o:null;}),
+    stems: qs.map(q=>q.querySelector('.stem').innerHTML),
+    opts:  qs.map(q=>[...q.querySelectorAll('.opt .tx')].map(x=>x.innerHTML)),
+    exps:  qs.map(q=>q.querySelector('.exp-t').innerHTML),
+    trs:   qs.map(q=>q.querySelector('.tr-t').innerHTML),
+    meta:  [...document.querySelectorAll('.meta b')].map(x=>x.innerHTML)
+  };
+}
+function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(collect())); }catch(e){} }
+function restore(){
+  let s; try{ s = JSON.parse(localStorage.getItem(STORE_KEY)||'null'); }catch(e){ return; }
+  if (!s) return;
+  const qs = [...list.querySelectorAll('.q')];
+  (s.stems||[]).forEach((v,i)=>{ if(qs[i] && v) qs[i].querySelector('.stem').innerHTML = v; });
+  (s.opts||[]).forEach((row,i)=>{ if(qs[i]) [...qs[i].querySelectorAll('.opt .tx')].forEach((el,j)=>{ if(row[j]!=null) el.innerHTML = row[j]; }); });
+  (s.exps||[]).forEach((v,i)=>{ if(qs[i] && v) qs[i].querySelector('.exp-t').innerHTML = v; });
+  (s.trs||[]).forEach((v,i)=>{ if(qs[i] && v) qs[i].querySelector('.tr-t').innerHTML = v; });
+  (s.meta||[]).forEach((v,i)=>{ const m=[...document.querySelectorAll('.meta b')][i]; if(m && v) m.innerHTML = v; });
+  (s.picks||[]).forEach((v,i)=>{ if(qs[i] && v!=null) qs[i].querySelector(`.opt[data-o="${v}"]`).classList.add('sel'); });
+  updateScore();
+}
+document.querySelectorAll('[data-edit]').forEach(()=>{});
+list.addEventListener('input', save);
+
+build();
+restore();
+list.querySelectorAll('[data-edit]').forEach(el=>el.addEventListener('blur', save));
+</script>
+</body>
+</html>
